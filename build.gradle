@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'fr.altarik'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven {
+        name 'altarik-snapshots'
+        url 'https://repo.altarik.fr/snapshots/'
+    }
+    maven {
+        name 'altarik-releases'
+        url 'https://repo.altarik.fr/releases/'
+    }
+
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_version}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_version}"
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name 'altarik'
+            url 'https://repo.altarik.fr/'.concat(version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/')
+            credentials {
+                username = project.repo_username
+                password = project.repo_password
+            }
+        }
+    }
+}
