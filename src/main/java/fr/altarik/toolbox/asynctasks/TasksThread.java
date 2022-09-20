@@ -5,7 +5,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class TasksThread {
+/**
+ * Package private class, AsyncTasks is the interface user need to interact with it and users should never directly call this class
+ */
+class TasksThread {
 
     boolean isWaiting = false;
     final ReentrantLock lock = new ReentrantLock();
@@ -14,7 +17,7 @@ public class TasksThread {
 
     final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
 
-    public void run() {
+    void run() {
         workerThread = new Thread(() -> {
 
             try {

@@ -22,7 +22,7 @@ public class AsyncTaskTest {
         AsyncTasks.initialize();
         Stack<Integer> results = new Stack<>();
         for(int i = 0; i < numberOfTasks; i++) {
-            System.out.println("[" + new Date() + "] sending task " + i);
+            System.out.println(log("sending task " + i));
             AtomicInteger atomicInteger = new AtomicInteger(i);
             AsyncTasks.addTask(() -> {
                 System.out.println(log(" task " + atomicInteger.get()));
@@ -30,12 +30,8 @@ public class AsyncTaskTest {
             });
         }
         while(AsyncTasks.numberOfWaitingTask() != 0) {
-            try {
-                synchronized (this) {
-                    wait(20); // wait till last task finish
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            synchronized (this) {
+                wait(20); // wait till last task finish
             }
         }
         Integer[] expected = new Integer[numberOfTasks];
