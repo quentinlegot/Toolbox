@@ -3,8 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-group 'fr.altarik'
-version '1.0-SNAPSHOT'
+group "${project.maven_group}"
+version "${project.maven_version}"
 
 repositories {
     maven {
