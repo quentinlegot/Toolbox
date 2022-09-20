@@ -5,41 +5,30 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class AsyncTaskTest {
 
+
+    private String log(String message) {
+        return "[" + new Date() + "]" + message;
+    }
     @Test
-    public void testAsyncOp() {
+    public void testAsyncOp() throws InterruptedException {
+        int numberOfTasks = 10000;
         System.out.println("Initializing async tasks worker");
         AsyncTasks.initialize();
         Stack<Integer> results = new Stack<>();
-        System.out.println("[" + new Date() + "] sending task 1");
-        AsyncTasks.addTask(() -> {
-            System.out.println("[" + new Date() + "] task 1");
-            results.push(1);
-        });
-        System.out.println("[" + new Date() + "] sending task 2");
-        AsyncTasks.addTask(() -> {
-            System.out.println("[" + new Date() + "] task 2");
-            results.push(2);
-        });
-        System.out.println("[" + new Date() + "] sending task 3");
-        AsyncTasks.addTask(() -> {
-            System.out.println("[" + new Date() + "] task 3");
-            results.push(3);
-        });
-        System.out.println("[" + new Date() + "] sending task 4");
-        AsyncTasks.addTask(() -> {
-            System.out.println("[" + new Date() + "] task 4");
-            results.push(4);
-        });
-        System.out.println("[" + new Date() + "] sending task 5");
-        AsyncTasks.addTask(() -> {
-            System.out.println("[" + new Date() + "] task 5");
-            results.push(5);
-        });
+        for(int i = 0; i < numberOfTasks; i++) {
+            System.out.println("[" + new Date() + "] sending task " + i);
+            AtomicInteger atomicInteger = new AtomicInteger(i);
+            AsyncTasks.addTask(() -> {
+                System.out.println(log(" task " + atomicInteger.get()));
+                results.push(atomicInteger.get());
+            });
+        }
         while(AsyncTasks.numberOfWaitingTask() != 0) {
             try {
                 synchronized (this) {
@@ -49,7 +38,11 @@ public class AsyncTaskTest {
                 throw new RuntimeException(e);
             }
         }
-        assertArrayEquals(new Integer[]{1, 2, 3, 4, 5}, results.toArray());
+        Integer[] expected = new Integer[numberOfTasks];
+        for(int i = 0; i < numberOfTasks; i++) {
+            expected[i] = i;
+        }
+        assertArrayEquals(expected, results.toArray());
 
     }
 }
