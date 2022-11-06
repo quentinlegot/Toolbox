@@ -9,31 +9,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class AsyncTaskTest {
+class AsyncTaskTest {
 
 
     private String log(String message) {
         return "[" + new Date() + "]" + message;
     }
     @Test
-    public void testAsyncOp() throws InterruptedException {
+    void testAsyncOp() throws Exception {
         int numberOfTasks = 10000;
         System.out.println("Initializing async tasks worker");
-        AsyncTasks.initialize();
+        AsyncTasks worker = AsyncTasks.initialize(1); // only testing on a single worker, otherwise result have a high chance to not be in the order we want
         Stack<Integer> results = new Stack<>();
         for(int i = 0; i < numberOfTasks; i++) {
             System.out.println(log("sending task " + i));
             AtomicInteger atomicInteger = new AtomicInteger(i);
-            AsyncTasks.addTask(() -> {
+            worker.addTask(() -> {
                 System.out.println(log(" task " + atomicInteger.get()));
                 results.push(atomicInteger.get());
             });
         }
-        while(AsyncTasks.numberOfWaitingTask() != 0) {
-            synchronized (this) {
-                wait(20); // wait till last task finish
-            }
-        }
+        worker.close(); // wait until all worker terminated
         Integer[] expected = new Integer[numberOfTasks];
         for(int i = 0; i < numberOfTasks; i++) {
             expected[i] = i;
