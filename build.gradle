@@ -1,3 +1,8 @@
+allprojects {
+    group = project.maven_group
+    version = project.maven_version
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
@@ -13,7 +18,7 @@ subprojects {
         repositories {
             maven {
                 name 'altarik'
-                url 'https://repo.altarik.fr/'.concat(version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/')
+                url 'https://repo.altarik.fr/'.concat(project.version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/')
                 credentials {
                     username = project.repo_username
                     password = project.repo_password

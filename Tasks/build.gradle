@@ -3,9 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-group "${project.maven_group}"
-version "${project.maven_version}"
-
 dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_version}"
