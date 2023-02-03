@@ -1,4 +1,7 @@
-package fr.altarik.toolbox.asynctasks;
+package fr.altarik.toolbox.task.asyncTasks;
+
+import fr.altarik.toolbox.task.AltarikRunnable;
+import fr.altarik.toolbox.task.TaskI;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -7,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A non-blocking small sized time-consuming tasks to executed asynchronously.
  */
-public class AsyncTasks implements AutoCloseable {
+public class AsyncTasks implements TaskI {
 
     private final ExecutorService worker;
 
@@ -27,11 +30,11 @@ public class AsyncTasks implements AutoCloseable {
      *
      * @return an instance of AsyncTasks
      */
-    public static AsyncTasks initialize(int numberOfWorker) {
+    public static TaskI initialize(int numberOfWorker) {
         return new AsyncTasks(numberOfWorker);
     }
 
-    public static AsyncTasks initialize() {
+    public static TaskI initialize() {
         return initialize(Runtime.getRuntime().availableProcessors());
     }
 
@@ -65,7 +68,7 @@ public class AsyncTasks implements AutoCloseable {
      * @param function task to be executed
      * @throws InterruptedException when worker thread or BlockQueue has been interrupted while waiting (which is anormal)
      */
-    public void addTask(Runnable function) throws InterruptedException {
+    public void addTask(AltarikRunnable function) throws InterruptedException {
         if(worker.isTerminated() || worker.isShutdown()) {
             throw new InterruptedException("Worker has been terminated or shutdown, it's impossible to add new task");
         }
@@ -75,9 +78,11 @@ public class AsyncTasks implements AutoCloseable {
     /**
      * This method is call when you want to close workers and wait for waiting tasks to finish
      *
+     * @throws UnfinishedTasksException when all tasks cannot be terminated in 10 seconds
+     * @throws InterruptedException if interrupted while waiting for tasks to finish
      */
     @Override
-    public void close() throws Exception {
+    public void close() throws UnfinishedTasksException, InterruptedException {
         worker.shutdown();
         boolean result = worker.awaitTermination(10, TimeUnit.SECONDS);
         if(!result) {

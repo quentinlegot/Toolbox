@@ -1,0 +1,34 @@
+{
+    "schemaVersion": 1,
+    "id": "task",
+    "version": "${version}",
+    "name": "Task",
+    "description": "A mod to use as a dependency for others to schedule tasks",
+    "authors": [
+      "Altarik"
+    ],
+    "contributors": [
+      "Legot Quentin<legotquentin@gmail.com>"
+    ],
+    "contact": {
+      "homepage": "https://altarik.fr"
+    },
+    "license": "Altarik @ All-Rights-Reserved ",
+    "icon": "assets/quests/icon.png",
+    "environment": "*",
+    "entrypoints": {
+      "main": [
+        "fr.altarik.toolbox.task.Task"
+      ]
+    },
+    "mixins": [
+      "Task.mixins.json"
+    ],
+    "depends": {
+      "fabricloader": ">=0.14.12",
+      "fabric": "*",
+      "minecraft": "1.19.3",
+      "npcs": "2.0.1-SNAPSHOT"
+    }
+  }
+  
