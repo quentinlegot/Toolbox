@@ -1,6 +1,8 @@
-package fr.altarik.toolbox.task.asyncTasks;
+package fr.altarik.toolbox.task.async;
 
-import fr.altarik.toolbox.task.*;
+import fr.altarik.toolbox.task.AltarikRunnable;
+import fr.altarik.toolbox.task.PeriodicTaskI;
+import fr.altarik.toolbox.task.TaskI;
 import it.unimi.dsi.fastutil.ints.IntComparators;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class AsyncPeriodicTasks implements PeriodicTaskI, AsyncTaskI {
 
     @Override
     public void addTask(AltarikRunnable function) throws InterruptedException {
-        this.addTask(function, 0, 1);
+        this.addTask(function, 0, 1000);
     }
 
     @Override

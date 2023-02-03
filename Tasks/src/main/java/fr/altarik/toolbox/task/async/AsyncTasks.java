@@ -1,4 +1,4 @@
-package fr.altarik.toolbox.task.asyncTasks;
+package fr.altarik.toolbox.task.async;
 
 import fr.altarik.toolbox.task.AltarikRunnable;
 import fr.altarik.toolbox.task.TaskI;

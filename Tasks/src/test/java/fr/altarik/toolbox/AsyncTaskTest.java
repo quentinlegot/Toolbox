@@ -2,7 +2,7 @@ package fr.altarik.toolbox;
 
 import fr.altarik.toolbox.task.AltarikRunnable;
 import fr.altarik.toolbox.task.TaskI;
-import fr.altarik.toolbox.task.asyncTasks.AsyncTasks;
+import fr.altarik.toolbox.task.async.AsyncTasks;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;

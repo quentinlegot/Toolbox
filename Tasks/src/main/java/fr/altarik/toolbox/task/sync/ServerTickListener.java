@@ -1,4 +1,4 @@
-package fr.altarik.toolbox.task.syncTasks;
+package fr.altarik.toolbox.task.sync;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
@@ -13,7 +13,7 @@ public class ServerTickListener {
     }
 
     private void onServerTick(MinecraftServer minecraftServer) {
-
+        task.run();
     }
 
 }

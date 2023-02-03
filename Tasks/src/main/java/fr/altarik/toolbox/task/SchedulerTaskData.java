@@ -1,15 +1,29 @@
-package fr.altarik.toolbox.task.syncTasks;
-
-import fr.altarik.toolbox.task.AltarikRunnable;
+package fr.altarik.toolbox.task;
 
 public class SchedulerTaskData {
 
+    /**
+     * Delay before executing the function for the first time
+     * Correspond to tick in synchronous context and milliseconds in asynchronous context
+     */
     private final long delay;
+    /**
+     * Period of time before re-executing the function
+     * Correspond to tick in synchronous context and milliseconds in asynchronous context
+     */
     private final long period;
     private final AltarikRunnable function;
 
     private long currentDelay;
 
+    /**
+     *
+     * Delay and Period times corresponds to tick in synchronous context and milliseconds in asynchronous context
+     *
+     * @param function instructions to execute
+     * @param delay Delay before executing the function for the first time
+     * @param period Period of time before re-executing the function
+     */
     public SchedulerTaskData(AltarikRunnable function, long delay, long period) {
         this.function = function;
         this.delay = delay;
@@ -36,4 +50,6 @@ public class SchedulerTaskData {
     public long getPeriod() {
         return period;
     }
+
+
 }

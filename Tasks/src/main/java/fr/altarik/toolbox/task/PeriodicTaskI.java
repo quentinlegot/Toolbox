@@ -8,7 +8,7 @@ public interface PeriodicTaskI extends TaskI {
      * @param delay delay before starting the task
      * @param period time to wait between runs
      * @throws InterruptedException When executed asynchronously, task may be interrupted
-     * @see fr.altarik.toolbox.task.syncTasks.PeriodicSyncTask
+     * @see fr.altarik.toolbox.task.sync.PeriodicSyncTask
      */
     public void addTask(AltarikRunnable function, long delay, long period) throws InterruptedException;
 }

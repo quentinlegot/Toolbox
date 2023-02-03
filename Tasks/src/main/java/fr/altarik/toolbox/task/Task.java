@@ -1,6 +1,6 @@
 package fr.altarik.toolbox.task;
 
-import fr.altarik.toolbox.task.asyncTasks.AsyncTasks;
+import fr.altarik.toolbox.task.async.AsyncTasks;
 import net.fabricmc.api.ModInitializer;
 
 public class Task implements ModInitializer {
