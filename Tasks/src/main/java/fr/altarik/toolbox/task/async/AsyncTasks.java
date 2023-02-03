@@ -1,7 +1,6 @@
 package fr.altarik.toolbox.task.async;
 
 import fr.altarik.toolbox.task.AltarikRunnable;
-import fr.altarik.toolbox.task.TaskI;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A non-blocking small sized time-consuming tasks to executed asynchronously.
  */
-public class AsyncTasks implements TaskI {
+public class AsyncTasks implements AsyncTaskI {
 
     private final ExecutorService worker;
 
@@ -30,11 +29,11 @@ public class AsyncTasks implements TaskI {
      *
      * @return an instance of AsyncTasks
      */
-    public static TaskI initialize(int numberOfWorker) {
+    public static AsyncTaskI initialize(int numberOfWorker) {
         return new AsyncTasks(numberOfWorker);
     }
 
-    public static TaskI initialize() {
+    public static AsyncTaskI initialize() {
         return initialize(Runtime.getRuntime().availableProcessors());
     }
 
