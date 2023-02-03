@@ -1,6 +1,6 @@
 package fr.altarik.toolbox.task;
 
-public interface TaskI extends AutoCloseable {
+public interface TaskI {
 
     public void addTask(AltarikRunnable function) throws InterruptedException;
 

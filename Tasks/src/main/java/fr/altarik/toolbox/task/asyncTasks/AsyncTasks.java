@@ -18,14 +18,14 @@ public class AsyncTasks implements TaskI {
         if(numberOfWorker == 1) {
             worker = Executors.newSingleThreadExecutor();
         } else if (numberOfWorker <= 0) {
-            worker = Executors.newCachedThreadPool();
+            worker = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         } else {
             worker = Executors.newFixedThreadPool(numberOfWorker);
         }
     }
 
     /**
-     * Call this method at startup or before first use of {@link AsyncTasks#addTask(Runnable)}, cause without it, nothing will work
+     * Call this method at startup or before first use of {@link AsyncTasks#addTask(AltarikRunnable)}, cause without it, nothing will work
      * This method declare worker thread and start it, without call it, by calling addTask(Runnable), it'll add your task to Queue, but tasks will never be consumed.
      *
      * @return an instance of AsyncTasks
