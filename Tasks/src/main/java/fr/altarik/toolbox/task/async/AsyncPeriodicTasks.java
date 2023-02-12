@@ -2,7 +2,6 @@ package fr.altarik.toolbox.task.async;
 
 import fr.altarik.toolbox.task.AltarikRunnable;
 import fr.altarik.toolbox.task.PeriodicTaskI;
-import fr.altarik.toolbox.task.TaskI;
 import it.unimi.dsi.fastutil.ints.IntComparators;
 
 import java.util.ArrayList;
@@ -48,11 +47,11 @@ public class AsyncPeriodicTasks implements PeriodicTaskI, AsyncTaskI {
      *
      * @return an instance of AsyncTasks
      */
-    public static TaskI initialize(int numberOfWorker) {
+    public static PeriodicTaskI initialize(int numberOfWorker) {
         return new AsyncPeriodicTasks(numberOfWorker);
     }
 
-    public static TaskI initialize() {
+    public static PeriodicTaskI initialize() {
         return initialize(Runtime.getRuntime().availableProcessors());
     }
 

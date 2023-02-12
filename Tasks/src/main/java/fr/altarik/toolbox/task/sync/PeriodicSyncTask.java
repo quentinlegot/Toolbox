@@ -24,7 +24,7 @@ public class PeriodicSyncTask implements PeriodicTaskI, Runnable {
 
     @Override
     public void addTask(AltarikRunnable function) {
-        addTask(function, 0, 0);
+        addTask(function, 0, 1);
     }
 
     @Override
@@ -51,6 +51,6 @@ public class PeriodicSyncTask implements PeriodicTaskI, Runnable {
 
     @Override
     public void addTask(AltarikRunnable function, long delay, long period) {
-        tasks.add(new SchedulerTaskData(function, delay, period));
+        tasks.add(new SchedulerTaskData(function, delay, period - 1));
     }
 }

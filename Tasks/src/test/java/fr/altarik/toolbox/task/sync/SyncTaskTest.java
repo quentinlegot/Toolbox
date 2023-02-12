@@ -8,45 +8,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class PeriodicSyncTaskTest {
+class SyncTaskTest {
 
     @Test
-    void testPeriodicSyncTask() {
+    void testOneTimeTask() {
+        SyncTask worker = (SyncTask) SyncTask.initialize();
         List<AtomicInteger> results = new ArrayList<>();
-        PeriodicSyncTask worker = (PeriodicSyncTask) PeriodicSyncTask.initialize();
         AtomicInteger value1 = new AtomicInteger(1);
         AtomicInteger value2 = new AtomicInteger(2);
-        worker.addTask(new AltarikRunnable() {
-
+        AltarikRunnable task1 = new AltarikRunnable() {
             @Override
             public void run() {
                 results.add(value1);
             }
-        }, 1, 3);
-        worker.addTask(new AltarikRunnable() {
-            private int i = 0;
+        };
+        AltarikRunnable task2 = new AltarikRunnable() {
             @Override
             public void run() {
                 results.add(value2);
-                if(i++ == 5)
-                    this.cancel();
             }
-        });
-        for(int i = 0; i < 10; i++) {
-            worker.run();
-        }
+        };
+        worker.addTask(task1);
+        worker.run();
+        worker.run();
+        worker.addTask(task2);
+        worker.addTask(task1);
+        worker.addTask(task2);
+        worker.run();
+        worker.addTask(task1);
+        worker.run();
         AtomicInteger[] expected = {
-                value2,
                 value1,
                 value2,
-                value2,
-                value2,
                 value1,
-                value2,
                 value2,
                 value1
         };
         Assertions.assertArrayEquals(expected, results.toArray());
     }
-
 }

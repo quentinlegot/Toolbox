@@ -7,18 +7,18 @@ import fr.altarik.toolbox.task.TaskI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OneTimeSyncTask implements TaskI, Runnable {
+public class SyncTask implements TaskI, Runnable {
 
     private final ServerTickListener listener;
     private final List<SchedulerTaskData> tasks;
 
-    private OneTimeSyncTask() {
+    private SyncTask() {
         this.listener = new ServerTickListener(this);
         this.tasks = new ArrayList<>(2);
     }
 
     public static TaskI initialize() {
-        return new OneTimeSyncTask();
+        return new SyncTask();
     }
 
     @Override

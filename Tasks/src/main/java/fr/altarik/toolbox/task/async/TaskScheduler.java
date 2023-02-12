@@ -30,7 +30,6 @@ public class TaskScheduler {
      */
     public synchronized void asyncRunnerPeriodicTasks() throws InterruptedException {
         loop: while(true) {
-            notify();
             while(asyncTasks.size() == 0) {
                 if(isStop()) {
                     break loop;
