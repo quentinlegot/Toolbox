@@ -3,7 +3,6 @@ package fr.altarik.toolbox.task.sync;
 import fr.altarik.toolbox.task.AltarikRunnable;
 import fr.altarik.toolbox.task.PeriodicTaskI;
 import fr.altarik.toolbox.task.SchedulerTaskData;
-import fr.altarik.toolbox.task.TaskI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +18,13 @@ public class PeriodicSyncTask implements PeriodicTaskI, Runnable {
     }
 
 
-    public static TaskI initialize() {
+    public static PeriodicTaskI initialize() {
         return new PeriodicSyncTask();
     }
 
     @Override
-    public void addTask(AltarikRunnable function) throws InterruptedException {
-        addTask(function, 0, 1);
+    public void addTask(AltarikRunnable function) {
+        addTask(function, 0, 0);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class PeriodicSyncTask implements PeriodicTaskI, Runnable {
     }
 
     @Override
-    public void addTask(AltarikRunnable function, long delay, long period) throws InterruptedException {
+    public void addTask(AltarikRunnable function, long delay, long period) {
         tasks.add(new SchedulerTaskData(function, delay, period));
     }
 }
