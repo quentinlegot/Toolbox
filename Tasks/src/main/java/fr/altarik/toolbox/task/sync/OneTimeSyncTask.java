@@ -1,30 +1,33 @@
 package fr.altarik.toolbox.task.sync;
 
 import fr.altarik.toolbox.task.AltarikRunnable;
-import fr.altarik.toolbox.task.PeriodicTaskI;
 import fr.altarik.toolbox.task.SchedulerTaskData;
+import fr.altarik.toolbox.task.TaskI;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeriodicSyncTask implements PeriodicTaskI, Runnable {
+public class OneTimeSyncTask implements TaskI, Runnable {
 
     private final ServerTickListener listener;
     private final List<SchedulerTaskData> tasks;
 
-    private PeriodicSyncTask() {
+    private OneTimeSyncTask() {
         this.listener = new ServerTickListener(this);
         this.tasks = new ArrayList<>(2);
     }
 
-
-    public static PeriodicTaskI initialize() {
-        return new PeriodicSyncTask();
+    public static TaskI initialize() {
+        return new OneTimeSyncTask();
     }
 
     @Override
     public void addTask(AltarikRunnable function) {
-        addTask(function, 0, 0);
+        addTask(function, 0);
+    }
+
+    public void addTask(AltarikRunnable function, int delay) {
+        tasks.add(new SchedulerTaskData(function, delay, 0));
     }
 
     @Override
@@ -37,7 +40,7 @@ public class PeriodicSyncTask implements PeriodicTaskI, Runnable {
                     data.setCurrentDelay(currentDelay - 1);
                 } else {
                     data.getFunction().run();
-                    data.setCurrentDelay(data.getPeriod());
+                    removeList.add(data);
                 }
             } else {
                 removeList.add(data);
@@ -46,11 +49,5 @@ public class PeriodicSyncTask implements PeriodicTaskI, Runnable {
         for(SchedulerTaskData toRemove : removeList) {
             tasks.remove(toRemove);
         }
-
-    }
-
-    @Override
-    public void addTask(AltarikRunnable function, long delay, long period) {
-        tasks.add(new SchedulerTaskData(function, delay, period));
     }
 }

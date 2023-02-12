@@ -5,9 +5,9 @@ import net.minecraft.server.MinecraftServer;
 
 public class ServerTickListener {
 
-    private final PeriodicSyncTask task;
+    private final Runnable task;
 
-    public ServerTickListener(PeriodicSyncTask syncTask) {
+    public ServerTickListener(Runnable syncTask) {
         this.task = syncTask;
         ServerTickEvents.START_SERVER_TICK.register(this::onServerTick);
     }
