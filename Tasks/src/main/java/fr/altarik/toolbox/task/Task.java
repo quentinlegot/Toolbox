@@ -17,7 +17,7 @@ public class Task implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        /*try {
+        /* try {
             asyncWorkers.addTask(new AltarikRunnable() {
                 @Override
                 public void run() {
@@ -44,7 +44,7 @@ public class Task implements ModInitializer {
             }, 60, 80);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }*/
+        } */
     }
 
     public TaskI getAsyncWorkers() {
