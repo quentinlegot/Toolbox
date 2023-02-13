@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 withGradle {
-                    sh './gradlew build'
+                    sh 'gradle build'
                 }
                 
             }
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'Testing...'
                 withGradle {
-                    sh './gradlew test'
+                    sh 'gradle test'
                 }
             }
         }
