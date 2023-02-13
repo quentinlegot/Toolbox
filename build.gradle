@@ -27,6 +27,13 @@ subprojects {
         }
     }
 
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+
     repositories {
         maven {
             name 'altarik-snapshots'
