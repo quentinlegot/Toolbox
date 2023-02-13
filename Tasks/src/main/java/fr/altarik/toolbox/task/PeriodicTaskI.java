@@ -10,5 +10,5 @@ public interface PeriodicTaskI extends TaskI {
      * @throws InterruptedException When executed asynchronously, task may be interrupted
      * @see fr.altarik.toolbox.task.sync.PeriodicSyncTask
      */
-    public void addTask(AltarikRunnable function, long delay, long period) throws InterruptedException;
+    void addTask(AltarikRunnable function, long delay, long period) throws InterruptedException;
 }

@@ -7,6 +7,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A task manager to execute periodic tasks asynchronously. A scheduler on the main/server thread will send the task to
+ * worker threads.
+ */
 public class AsyncPeriodicTasks implements PeriodicTaskI, AsyncTaskI, SendTaskWorkerI {
 
     private final ExecutorService worker;
@@ -41,11 +45,23 @@ public class AsyncPeriodicTasks implements PeriodicTaskI, AsyncTaskI, SendTaskWo
         return initialize(Runtime.getRuntime().availableProcessors());
     }
 
+    /**
+     * Send the task to the scheduler, the task is executed at the next server tick and at every following tick
+     * @param function the function which will be executed
+     * @throws InterruptedException if worker has terminated or is shutting down
+     */
     @Override
     public void addTask(AltarikRunnable function) throws InterruptedException {
-        this.addTask(function, 0, 1000);
+        this.addTask(function, 0, 1);
     }
 
+    /**
+     * Send the task to the scheduler, executed depending on the parameters (delay and period)
+     * @param function the function to execute
+     * @param delay delay in tick before starting the task
+     * @param period time in tick to wait between runs
+     * @throws InterruptedException if worker has terminated or is shutting down
+     */
     @Override
     public void addTask(AltarikRunnable function, long delay, long period) throws InterruptedException {
         if(worker.isTerminated() || worker.isShutdown()) {
@@ -54,6 +70,10 @@ public class AsyncPeriodicTasks implements PeriodicTaskI, AsyncTaskI, SendTaskWo
         tasks.add(new SchedulerTaskData(function, delay, period - 1));
     }
 
+    /**
+     * Try to execute task you already send in 10 seconds, otherwise workers are killed.
+     * @throws AsyncTasks.UnfinishedTasksException if workers has been shutdown before finishing every tasks
+     */
     @Override
     public void close() throws Exception {
         worker.shutdown();
