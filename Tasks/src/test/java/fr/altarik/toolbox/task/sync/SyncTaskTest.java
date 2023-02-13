@@ -29,14 +29,14 @@ class SyncTaskTest {
             }
         };
         worker.addTask(task1);
-        worker.run();
-        worker.run();
+        worker.scheduler.run();
+        worker.scheduler.run();
         worker.addTask(task2);
         worker.addTask(task1);
         worker.addTask(task2);
-        worker.run();
+        worker.scheduler.run();
         worker.addTask(task1);
-        worker.run();
+        worker.scheduler.run();
         AtomicInteger[] expected = {
                 value1,
                 value2,

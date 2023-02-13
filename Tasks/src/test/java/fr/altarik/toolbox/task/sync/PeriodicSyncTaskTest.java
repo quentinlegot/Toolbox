@@ -33,7 +33,7 @@ class PeriodicSyncTaskTest {
             }
         });
         for(int i = 0; i < 10; i++) {
-            worker.run();
+            worker.scheduler.run();
         }
         AtomicInteger[] expected = {
                 value2,

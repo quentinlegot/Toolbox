@@ -1,20 +1,20 @@
 package fr.altarik.toolbox.task.sync;
 
-import fr.altarik.toolbox.task.AltarikRunnable;
-import fr.altarik.toolbox.task.SchedulerTaskData;
-import fr.altarik.toolbox.task.TaskI;
+import fr.altarik.toolbox.task.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SyncTask implements TaskI, Runnable {
+public class SyncTask implements TaskI, SendTaskWorkerI {
 
     private final ServerTickListener listener;
     private final List<SchedulerTaskData> tasks;
+    protected final Scheduler scheduler;
 
     private SyncTask() {
-        this.listener = new ServerTickListener(this);
         this.tasks = new ArrayList<>(2);
+        this.scheduler = new Scheduler(this, tasks);
+        this.listener = new ServerTickListener(scheduler);
     }
 
     public static TaskI initialize() {
@@ -27,27 +27,11 @@ public class SyncTask implements TaskI, Runnable {
     }
 
     public void addTask(AltarikRunnable function, int delay) {
-        tasks.add(new SchedulerTaskData(function, delay, 0));
+        tasks.add(new SchedulerTaskData(function, delay, -1));
     }
 
     @Override
-    public void run() {
-        List<SchedulerTaskData> removeList = new ArrayList<>(tasks.size());
-        for(SchedulerTaskData data : tasks) {
-            if(!data.getFunction().isCancelled()) {
-                long currentDelay = data.getCurrentDelay();
-                if(currentDelay != 0) {
-                    data.setCurrentDelay(currentDelay - 1);
-                } else {
-                    data.getFunction().run();
-                    removeList.add(data);
-                }
-            } else {
-                removeList.add(data);
-            }
-        }
-        for(SchedulerTaskData toRemove : removeList) {
-            tasks.remove(toRemove);
-        }
+    public void sendTask(AltarikRunnable task) {
+        task.run();
     }
 }

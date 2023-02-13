@@ -1,4 +1,4 @@
-package fr.altarik.toolbox.task.sync;
+package fr.altarik.toolbox.task;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
