@@ -2,13 +2,14 @@ package fr.altarik.toolbox.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Scheduler implements Runnable {
 
-    private final List<SchedulerTaskData> tasks;
+    private final Queue<SchedulerTaskData> tasks;
     private final SendTaskWorkerI worker;
 
-    public Scheduler(SendTaskWorkerI worker, List<SchedulerTaskData> tasks) {
+    public Scheduler(SendTaskWorkerI worker, Queue<SchedulerTaskData> tasks) {
         this.worker = worker;
         this.tasks = tasks;
     }
