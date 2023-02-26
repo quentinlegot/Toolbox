@@ -9,9 +9,6 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_version}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_version}"
 }
 
 processResources {
@@ -36,9 +33,4 @@ tasks.withType(JavaCompile).configureEach {
     if (JavaVersion.current().isJava9Compatible()) {
         it.options.release = targetVersion
     }
-}
-
-
-test {
-    useJUnitPlatform()
 }
