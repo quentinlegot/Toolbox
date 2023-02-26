@@ -2,7 +2,8 @@ package fr.altarik.toolbox.task.async;
 
 import fr.altarik.toolbox.task.*;
 
-import java.util.Stack;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class AsyncPeriodicTasks implements PeriodicTaskI, AsyncTaskI, SendTaskWorkerI {
 
     private final ExecutorService worker;
-    private final Stack<SchedulerTaskData> tasks;
+    private final Queue<SchedulerTaskData> tasks;
     protected final Scheduler scheduler;
     private final ServerTickListener listener;
 
@@ -26,7 +27,7 @@ public class AsyncPeriodicTasks implements PeriodicTaskI, AsyncTaskI, SendTaskWo
         } else {
             worker = Executors.newFixedThreadPool(numberOfWorker);
         }
-        tasks = new Stack<>();
+        tasks = new ConcurrentLinkedQueue<>();
         this.scheduler = new Scheduler(this, tasks);
         this.listener = new ServerTickListener(scheduler);
     }

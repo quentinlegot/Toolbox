@@ -2,17 +2,17 @@ package fr.altarik.toolbox.task.sync;
 
 import fr.altarik.toolbox.task.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PeriodicSyncTask implements PeriodicTaskI, SendTaskWorkerI {
 
     private final ServerTickListener listener;
-    private final List<SchedulerTaskData> tasks;
+    private final Queue<SchedulerTaskData> tasks;
     protected final Scheduler scheduler;
 
     private PeriodicSyncTask() {
-        this.tasks = new ArrayList<>(2);
+        this.tasks = new ConcurrentLinkedQueue<>();
         this.scheduler = new Scheduler(this, tasks);
         this.listener = new ServerTickListener(scheduler);
     }
