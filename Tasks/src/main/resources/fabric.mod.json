@@ -14,7 +14,7 @@
       "homepage": "https://altarik.fr"
     },
     "license": "Altarik @ All-Rights-Reserved ",
-    "icon": "assets/quests/icon.png",
+    "icon": "assets/tasks/icon.png",
     "environment": "*",
     "entrypoints": {
       "main": [

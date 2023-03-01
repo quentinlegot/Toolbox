@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "pagination",
+  "version": "${version}",
+  "name": "Task",
+  "description": "A mod to use to paginate long result to player in chat",
+  "authors": [
+    "Altarik"
+  ],
+  "contributors": [
+    "Legot Quentin<legotquentin@gmail.com>"
+  ],
+  "contact": {
+    "homepage": "https://altarik.fr"
+  },
+  "license": "Altarik @ All-Rights-Reserved ",
+  "icon": "assets/pagination/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "fr.altarik.toolbox.pagination.Pagination"
+    ]
+  },
+  "mixins": [
+    "Pagination.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "^0.14.12",
+    "fabric-api": "*",
+    "minecraft": "1.19.3",
+    "java": ">=17"
+  }
+}
