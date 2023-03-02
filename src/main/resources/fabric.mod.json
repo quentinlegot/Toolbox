@@ -16,9 +16,6 @@
     "license": "Altarik @ All-Rights-Reserved ",
     "icon": "assets/quests/icon.png",
     "environment": "*",
-    "mixins": [
-      "toolbox.mixins.json"
-    ],
     "depends": {
       "fabricloader": "^0.14.12",
       "fabric-api": "*",
