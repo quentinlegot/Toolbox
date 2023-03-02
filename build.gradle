@@ -1,20 +1,40 @@
-allprojects {
-    group = project.maven_group
-    version = project.maven_version
+plugins {
+    id 'java'
+    id 'fabric-loom' version '1.1-SNAPSHOT' apply false
 }
 
-subprojects {
+allprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
+
+    group = project.maven_group
+    version = project.maven_version
+    
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+
+    repositories {
+        maven {
+            name 'altarik-snapshots'
+            url 'https://repo.altarik.fr/snapshots/'
+        }
+        maven {
+            name 'altarik-releases'
+            url 'https://repo.altarik.fr/releases/'
+        }
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        mavenCentral()
+    }
 
     publishing {
         publications {
             mavenJava(MavenPublication) {
-                from components.java
+                 from components.java
             }
-        }
+        } 
         repositories {
             maven {
                 name 'altarik'
@@ -26,6 +46,9 @@ subprojects {
             }
         }
     }
+}
+
+subprojects {
 
     dependencies {
         testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_version}"
@@ -41,16 +64,18 @@ subprojects {
         useJUnitPlatform()
     }
 
-    repositories {
-        maven {
-            name 'altarik-snapshots'
-            url 'https://repo.altarik.fr/snapshots/'
-        }
-        maven {
-            name 'altarik-releases'
-            url 'https://repo.altarik.fr/releases/'
-        }
+}
 
-        mavenCentral()
+dependencies {
+    implementation project(':Pagination')
+}
+
+
+jar {
+    dependsOn subprojects.jar 
+    subprojects.each { project -> 
+        from(project.jar) {
+            into("META-INF/jars/")
+        }
     }
 }
