@@ -1,0 +1,29 @@
+{
+    "schemaVersion": 1,
+    "id": "toolbox",
+    "version": "${version}",
+    "name": "Altarik Toolbox",
+    "description": "Altarik Toolbox, for developers",
+    "authors": [
+      "Altarik"
+    ],
+    "contributors": [
+      "Legot Quentin<legotquentin@gmail.com>"
+    ],
+    "contact": {
+      "homepage": "https://altarik.fr"
+    },
+    "license": "Altarik @ All-Rights-Reserved ",
+    "icon": "assets/quests/icon.png",
+    "environment": "*",
+    "mixins": [
+      "toolbox.mixins.json"
+    ],
+    "depends": {
+      "fabricloader": "^0.14.12",
+      "fabric-api": "*",
+      "minecraft": "1.19.3",
+      "java": ">=17"
+    }
+  }
+  

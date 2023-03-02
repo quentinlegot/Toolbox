@@ -14,7 +14,6 @@ public interface PaginationApi {
      *               <p>Special values are:
      *               <ul><li><b>null</b> if you doesn't want to add a header</li>
      *               <li><b>empty String</b> if you want just the header to be filled only with "="</li></ul>
-     *               </p>
      * @throws IllegalArgumentException if one of its conditions is met: <ol>
      *     <li><b>header</b> length is more than 50 characters</li>
      *     <li><b>content</b> is empty</li>

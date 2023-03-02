@@ -1,11 +1,4 @@
 dependencies {
     implementation 'org.postgresql:postgresql:42.5.0'
     testImplementation 'com.google.code.gson:gson:2.10'
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_version}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_version}"
 }
-
-test {
-    useJUnitPlatform()
-}
-
