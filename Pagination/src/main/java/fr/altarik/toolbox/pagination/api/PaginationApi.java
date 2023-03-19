@@ -16,7 +16,7 @@ public interface PaginationApi {
      *               <li><b>empty String</b> if you want just the header to be filled only with "="</li></ul>
      * @throws IllegalArgumentException if one of its conditions is met: <ol>
      *     <li><b>header</b> length is more than 50 characters</li>
-     *     <li><b>content</b> is empty</li>
+     *     <li><b>content</b> is empty/blank</li>
      *     <li><b>playerEntity</b> or <b>content</b> are null</li>
      * </ol>
      */
