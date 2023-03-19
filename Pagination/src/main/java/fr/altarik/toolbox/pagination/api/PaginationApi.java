@@ -2,6 +2,7 @@ package fr.altarik.toolbox.pagination.api;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 
+@SuppressWarnings("unused") // Api usage
 public interface PaginationApi {
 
     /**

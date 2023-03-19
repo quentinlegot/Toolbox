@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class PaginationApiImpl implements PaginationApi {
+    /**
+     * Integer represent relative tts of the paginated content, decreased by 1 every seconds
+     */
     private final Map<ServerPlayerEntity, Pair<Integer, PaginatedContent>> paginatedContent = new HashMap<>();
     private final Predicate<ServerPlayerEntity> playerCondition = new NullPlayerCondition().negate();
     private final Predicate<String> headerCondition = new HeaderCondition().negate();
@@ -21,7 +24,6 @@ public class PaginationApiImpl implements PaginationApi {
         if(playerCondition.test(playerEntity) || headerCondition.test(header) || contentCondition.test(content)) {
             throw new IllegalArgumentException("Preconditions aren't satisfied");
         }
-
-        // TODO: 01/03/2023
+        paginatedContent.put(playerEntity, new Pair<>(900, new PaginatedContent(header, content)));
     }
 }
