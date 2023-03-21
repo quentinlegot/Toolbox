@@ -3,7 +3,7 @@
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
 
-name: build
+name: 
 on:   
   push:
     branches: [ master, dev ]
@@ -14,7 +14,7 @@ on:
 jobs:
   build:
     strategy:
-      matrix:-
+      matrix:
       java: [ '17' ]
         # and run on both Linux and Windows
         os: [ubuntu-latest, windows-2022]
