@@ -4,12 +4,17 @@
 # against bad commits.
 
 name: build
-on: [push, pull_request]
+on:   
+  push:
+    branches: [ master, dev ]
+  pull_request_target: 
+    branches: [  master, dev ]
+
 
 jobs:
   build:
     strategy:
-      matrix:
+      matrix:-
       java: [ '17' ]
         # and run on both Linux and Windows
         os: [ubuntu-latest, windows-2022]
