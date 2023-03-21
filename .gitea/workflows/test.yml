@@ -4,24 +4,25 @@
 # against bad commits.
 
 name: build
-on: [pull_request, push]
+on: [push, pull_request]
 
 jobs:
   build:
     strategy:
       matrix:
+      java: [ '17' ]
         # and run on both Linux and Windows
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-2022]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v3
        - name: validate gradle wrapper
         uses: https://github.com/gradle/wrapper-validation-action@v1
-      - name: setup jdk 17
+      - name: setup jdk ${{ matrix.Java }}
         uses: setup-java@v3
         with:
-          java-version: 17
+          java-version: ${{ matrix.java }}
           distribution: 'oracle'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
