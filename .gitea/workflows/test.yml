@@ -19,16 +19,17 @@ jobs:
        - name: validate gradle wrapper
         uses: https://github.com/gradle/wrapper-validation-action@v1
       - name: setup jdk 17
-        uses: https://github.com/actions/setup-java@v3
+        uses: setup-java@v3
         with:
           java-version: 17
+          distribution: 'oracle'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
       - name: test
-        run: ./gradlew test
+        run: ./gradlew test --no-daemon
   deploy:
     runs-on: ${{ ubuntu-22.04 }}
     if: gitea.ref == 'refs/heads/master'
