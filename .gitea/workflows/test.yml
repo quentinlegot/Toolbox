@@ -32,7 +32,7 @@ jobs:
       - name: test
         run: ./gradlew test --no-daemon
   deploy:
-    runs-on: ${{ ubuntu-22.04 }}
+    runs-on: ${{ ubuntu-latest }}
     if: gitea.ref == 'refs/heads/master'
     steps:
       - name: deploy
