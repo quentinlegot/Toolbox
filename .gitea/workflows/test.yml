@@ -1,0 +1,47 @@
+# Automatically build the project and run any configured tests for every push
+# and submitted pull request. This can help catch issues that only occur on
+# certain platforms or Java versions, and provides a first line of defence
+# against bad commits.
+
+name: 
+on:   
+  push:
+    branches: [ master, dev ]
+  pull_request_target: 
+    branches: [  master, dev ]
+
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        java: [ '17' ]
+        # and run on both Linux and Windows
+        os: [ubuntu-latest, windows-2022]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+      - name: validate gradle wrapper
+        uses: https://github.com/gradle/wrapper-validation-action@v1
+      - name: setup jdk ${{ matrix.Java }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'oracle'
+      - name: make gradle wrapper executable
+        if: ${{ runner.os != 'Windows' }}
+        run: chmod +x ./gradlew
+      - name: build
+        run: ./gradlew build --no-daemon
+      - name: test
+        run: ./gradlew test --no-daemon
+  deploy:
+    runs-on: ${{ ubuntu-latest }}
+    if: gitea.ref == 'refs/heads/master'
+    steps:
+      - name: deploy
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artifacts
+          path: build/libs/
