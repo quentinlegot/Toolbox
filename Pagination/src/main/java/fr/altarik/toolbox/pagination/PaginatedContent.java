@@ -32,18 +32,20 @@ public class PaginatedContent {
         List<String> currentPage = new ArrayList<>();
         for(String elem : secondSplit) {
             line++;
-            currentPage.add(elem);
+            if(!elem.isEmpty())
+                currentPage.add(elem);
             if(line == 8 || elem.isEmpty()) {
                 pages.add(new Page(currentPage));
                 line = 0;
                 currentPage = new ArrayList<>();
             }
         }
+        pages.add(new Page(currentPage));
     }
 
     public void display(ServerPlayerEntity playerEntity, int page) {
        if(page >= this.pages.size()) {
-           throw new IllegalArgumentException("There's " + this.pages.size() + " paginated pages but you wanted page n°" + page);
+           throw new IllegalArgumentException("There's " + this.pages.size() + " paginated pages but you wanted page n°" + (page + 1));
        } else if(page < 0) {
            throw new IllegalArgumentException("argument page is lower than 0");
        } else {

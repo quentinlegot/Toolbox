@@ -26,8 +26,34 @@ public class CommandsRegister {
                         .then(argument("page", IntegerArgumentType.integer())
                                 .executes(this::selectPageCommand)
                         )
+                ).then(literal("test")
+                        .requires(source -> source.isExecutedByPlayer() && source.hasPermissionLevel(3))
+                        .executes(this::testPageCommand)
                 )
         );
+    }
+
+    /**
+     * Simply a debug command
+     */
+    private int testPageCommand(CommandContext<ServerCommandSource> context) {
+        api.createTable(context.getSource().getPlayer(), """
+                first line
+                Second line
+                
+                second page
+                dqdq
+                dqdqd
+                qdqdq
+                dqdq
+                dqdq
+                dqdq
+                dqdqd
+                third page
+                dqdqd
+                dqdqd
+                d""", "My header");
+        return 0;
     }
 
     private int selectPageCommand(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
