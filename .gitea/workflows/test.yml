@@ -35,12 +35,4 @@ jobs:
         run: ./gradlew build --no-daemon
       #- name: test
       #  run: ./gradlew test --no-daemon
-  deploy:
-    runs-on: ubuntu-latest
-    if: ${{ gitea.ref }} == 'refs/heads/master'
-    steps:
-      - name: deploy
-        uses: actions/upload-artifact@v3
-        with:
-          name: Artifacts
-          path: build/libs/
+
