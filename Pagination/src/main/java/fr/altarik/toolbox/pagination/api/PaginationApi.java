@@ -2,6 +2,7 @@ package fr.altarik.toolbox.pagination.api;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 
+@SuppressWarnings("unused") // Api usage
 public interface PaginationApi {
 
     /**
@@ -16,10 +17,20 @@ public interface PaginationApi {
      *               <li><b>empty String</b> if you want just the header to be filled only with "="</li></ul>
      * @throws IllegalArgumentException if one of its conditions is met: <ol>
      *     <li><b>header</b> length is more than 50 characters</li>
-     *     <li><b>content</b> is empty</li>
+     *     <li><b>content</b> is empty/blank</li>
      *     <li><b>playerEntity</b> or <b>content</b> are null</li>
      * </ol>
      */
     void createTable(ServerPlayerEntity playerEntity, String content, String header);
+
+    /**
+     * Display the given page for the given player
+     * @param player display the content of this player
+     * @param page display this page
+     * @throws IllegalArgumentException if page is invalid
+     * @throws NullPointerException if player is null or paginated content for the player doesn't exist (or have expired)
+     * @see fr.altarik.toolbox.pagination.PaginatedContent#display(ServerPlayerEntity, int)
+     */
+    void display(ServerPlayerEntity player, int page);
 
 }

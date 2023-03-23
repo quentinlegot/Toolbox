@@ -1,11 +1,10 @@
 plugins {
-    id 'java'
     id 'fabric-loom' version '1.1-SNAPSHOT' apply false
 }
 
 allprojects {
-    apply plugin: 'java'
     apply plugin: 'maven-publish'
+    apply plugin: 'fabric-loom'
 
     group = project.maven_group
     version = project.maven_version
@@ -34,7 +33,7 @@ allprojects {
             mavenJava(MavenPublication) {
                  from components.java
             }
-        } 
+        }
         repositories {
             maven {
                 name 'altarik'
@@ -46,13 +45,38 @@ allprojects {
             }
         }
     }
-}
 
-subprojects {
+    processResources {
+        inputs.property "version", project.version
+
+        filesMatching("fabric.mod.json") {
+            expand "version": project.version
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        // ensure that the encoding is set to UTF-8, no matter what the system default is
+        // this fixes some edge cases with special characters not displaying correctly
+        // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+        // If Javadoc is generated, this must be specified in that task too.
+        it.options.encoding = "UTF-8"
+
+        // The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too
+        // JDK 9 introduced a new way of specifying this that will make sure no newer classes or methods are used.
+        // We'll use that if it's available, but otherwise we'll use the older option.
+        def targetVersion = 17
+        if (JavaVersion.current().isJava9Compatible()) {
+            it.options.release = targetVersion
+        }
+    }
 
     dependencies {
         testImplementation "org.junit.jupiter:junit-jupiter-api:${project.junit_version}"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.junit_version}"
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     }
 
     java {
@@ -66,11 +90,15 @@ subprojects {
 
 }
 
-jar {
+dependencies {
+    include subprojects.collect { project ->  project }
+}
+
+/*jar {
     dependsOn subprojects.jar 
     subprojects.each { project -> 
         from(project.jar) {
             into("META-INF/jars/")
         }
     }
-}
+}*/
