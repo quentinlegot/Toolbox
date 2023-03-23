@@ -37,7 +37,7 @@ jobs:
       #  run: ./gradlew test --no-daemon
   deploy:
     runs-on: ubuntu-latest
-    if: gitea.ref == 'refs/heads/master'
+    if: ${{ gitea.ref }} == 'refs/heads/master'
     steps:
       - name: deploy
         uses: actions/upload-artifact@v3
