@@ -16,8 +16,7 @@ jobs:
     strategy:
       matrix:
         java: [ '17' ]
-        # and run on both Linux and Windows
-        os: [ubuntu-latest, windows-2022]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
@@ -29,6 +28,13 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'oracle'
+      - name: setup psql
+        uses: https://github.com/harmon758/postgresql-action@v1
+        with:
+          postgresql version: '15'
+          postgresql db: postgres
+          postgresql user: postgres
+          postgresql password: 'root'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
