@@ -17,7 +17,7 @@ public class PaginatedContent {
     private final String header;
 
     public PaginatedContent(String header, String content) {
-        this.header = header;
+        this.header = buildHeader(header);
         pages = new ArrayList<>();
         List<String> secondSplit = new ArrayList<>();
         for(String elem : Stream.of(content.split("\n")).collect(Collectors.toCollection(ArrayList::new))) {
@@ -43,6 +43,11 @@ public class PaginatedContent {
         pages.add(new Page(currentPage));
     }
 
+    private String buildHeader(String header) {
+        int numberOfEq = (50 - header.length()) / 2;
+        return "=".repeat(numberOfEq) + header + "=".repeat(numberOfEq);
+    }
+
     public void display(ServerPlayerEntity playerEntity, int page) {
        if(page >= this.pages.size()) {
            throw new IllegalArgumentException("There's " + this.pages.size() + " paginated pages but you wanted page n°" + (page + 1));
@@ -53,18 +58,33 @@ public class PaginatedContent {
            for(String s : pages.get(page).lines) {
                playerEntity.sendMessage(Text.literal(s));
            }
-           MutableText left = Text.literal("<").styled(
-                   style -> style
-                           .withColor(Formatting.YELLOW)
-                           .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/table page " + (page - 1)))
-           );
-           MutableText right = Text.literal(">").styled(
-                   style -> style
-                           .withColor(Formatting.YELLOW)
-                           .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/table page " + (page + 1)))
-           );
-           playerEntity.sendMessage(left.append(" " + page + " ").append(right));
+
+           playerEntity.sendMessage(buildFooter(page));
        }
+    }
+
+    private Text buildFooter(int page) {
+        String strPage = String.valueOf(page + 1);
+        int numberOfEq = (46 - strPage.length()) / 2;
+        MutableText left = Text.literal("<").styled(
+                style -> style
+                        .withColor(Formatting.YELLOW)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/table page " + (page - 1)))
+        );
+        MutableText middle = Text.literal(" " + strPage + " ").styled(style -> style.withColor(Formatting.RESET));
+        MutableText right = Text.literal(">").styled(
+                style -> style
+                        .withColor(Formatting.YELLOW)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/table page " + (page + 1)))
+        );
+        return Text.literal("=".repeat(numberOfEq))
+                .append(left)
+                .append(middle)
+                .append(right)
+                .append(
+                        Text.literal("=".repeat(numberOfEq))
+                                .styled(style -> style.withColor(Formatting.RESET))
+                );
     }
 
     private record Page(List<String> lines) {
