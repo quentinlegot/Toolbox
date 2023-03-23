@@ -28,13 +28,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'oracle'
-      - name: setup psql
-        uses: https://github.com/ikalnytskyi/action-setup-postgres@v4
-        with:
-          port: 5432
-          database: postgres
-          username: postgres
-          password: 'root'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
