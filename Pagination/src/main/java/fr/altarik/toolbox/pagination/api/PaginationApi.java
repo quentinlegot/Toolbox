@@ -23,4 +23,14 @@ public interface PaginationApi {
      */
     void createTable(ServerPlayerEntity playerEntity, String content, String header);
 
+    /**
+     * Display the given page for the given player
+     * @param player display the content of this player
+     * @param page display this page
+     * @throws IllegalArgumentException if page is invalid
+     * @throws NullPointerException if player is null or paginated content for the player doesn't exist (or have expired)
+     * @see fr.altarik.toolbox.pagination.PaginatedContent#display(ServerPlayerEntity, int)
+     */
+    void display(ServerPlayerEntity player, int page);
+
 }
