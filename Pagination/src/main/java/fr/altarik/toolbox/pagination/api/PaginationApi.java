@@ -2,7 +2,6 @@ package fr.altarik.toolbox.pagination.api;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 
-@SuppressWarnings("unused") // Api usage
 public interface PaginationApi {
 
     /**
@@ -15,13 +14,15 @@ public interface PaginationApi {
      *               <p>Special values are:
      *               <ul><li><b>null</b> if you doesn't want to add a header</li>
      *               <li><b>empty String</b> if you want just the header to be filled only with "="</li></ul>
+     * @param display true if you want the message to be displayed now, false otherwise if you want to display the
+     *                message yourself
      * @throws IllegalArgumentException if one of its conditions is met: <ol>
      *     <li><b>header</b> length is more than 50 characters</li>
      *     <li><b>content</b> is empty/blank</li>
      *     <li><b>playerEntity</b> or <b>content</b> are null</li>
      * </ol>
      */
-    void createTable(ServerPlayerEntity playerEntity, String content, String header);
+    void createTable(ServerPlayerEntity playerEntity, String content, String header, boolean display);
 
     /**
      * Display the given page for the given player

@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class PaginatedContent {
 
     private final List<Page> pages;
-    private final String header;
+    private final Text header;
 
     public PaginatedContent(String header, String content) {
         this.header = buildHeader(header);
@@ -29,11 +29,11 @@ public class PaginatedContent {
             }
         }
         int line = 0;
-        List<String> currentPage = new ArrayList<>();
+        List<Text> currentPage = new ArrayList<>();
         for(String elem : secondSplit) {
             line++;
             if(!elem.isEmpty())
-                currentPage.add(elem);
+                currentPage.add(Text.literal(elem));
             if(line == 8 || elem.isEmpty()) {
                 pages.add(new Page(currentPage));
                 line = 0;
@@ -43,9 +43,9 @@ public class PaginatedContent {
         pages.add(new Page(currentPage));
     }
 
-    private String buildHeader(String header) {
+    private Text buildHeader(String header) {
         int numberOfEq = (50 - header.length()) / 2;
-        return "=".repeat(numberOfEq) + header + "=".repeat(numberOfEq);
+        return Text.literal("=".repeat(numberOfEq) + header + "=".repeat(numberOfEq));
     }
 
     public void display(ServerPlayerEntity playerEntity, int page) {
@@ -54,9 +54,9 @@ public class PaginatedContent {
        } else if(page < 0) {
            throw new IllegalArgumentException("argument page is lower than 0");
        } else {
-           playerEntity.sendMessage(Text.literal(header));
-           for(String s : pages.get(page).lines) {
-               playerEntity.sendMessage(Text.literal(s));
+           playerEntity.sendMessage(header);
+           for(Text s : pages.get(page).lines) {
+               playerEntity.sendMessage(s);
            }
 
            playerEntity.sendMessage(buildFooter(page));
@@ -87,7 +87,7 @@ public class PaginatedContent {
                 );
     }
 
-    private record Page(List<String> lines) {
+    private record Page(List<Text> lines) {
     }
 
 }

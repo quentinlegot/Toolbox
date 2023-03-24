@@ -52,7 +52,7 @@ public class CommandsRegister {
                 third page
                 dqdqd
                 dqdqd
-                d""", "My header");
+                d""", "My header", true);
         return 0;
     }
 

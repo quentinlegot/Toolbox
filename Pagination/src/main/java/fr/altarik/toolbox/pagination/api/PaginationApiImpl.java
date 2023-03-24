@@ -29,13 +29,14 @@ public class PaginationApiImpl implements PaginationApi {
     }
 
     @Override
-    public void createTable(ServerPlayerEntity playerEntity, String content, String header) {
+    public void createTable(ServerPlayerEntity playerEntity, String content, String header, boolean display) {
         if(playerCondition.test(playerEntity) || headerCondition.test(header) || contentCondition.test(content)) {
             throw new IllegalArgumentException("Preconditions aren't satisfied");
         }
         PaginatedContent paginatedContent1 = new PaginatedContent(header, content);
         paginatedContent.put(playerEntity, new Pair<>(18000, paginatedContent1));
-        paginatedContent1.display(playerEntity, 0);
+        if(display)
+            paginatedContent1.display(playerEntity, 0);
     }
 
     @Override
