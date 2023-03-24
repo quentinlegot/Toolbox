@@ -7,6 +7,7 @@ import fr.altarik.toolbox.pagination.precondition.NullPlayerCondition;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 
 import java.util.ArrayList;
@@ -42,6 +43,11 @@ public class PaginationApiImpl implements PaginationApi {
                 throw new IllegalArgumentException(e);
             }
         }
+    }
+
+    @Override
+    public void createTable(ServerPlayerEntity playerEntity, List<Text> content, Text header, boolean display) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
