@@ -2,6 +2,7 @@ package fr.altarik.toolbox.pagination.api;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public interface PaginationApi {
      *     </ol>
      * @see Text#empty()
      */
-    void createTable(ServerPlayerEntity playerEntity, List<Text> content, Text header, boolean display);
+    void createTable(ServerPlayerEntity playerEntity, List<Text> content, @Nullable Text header, boolean display);
 
 
     /**

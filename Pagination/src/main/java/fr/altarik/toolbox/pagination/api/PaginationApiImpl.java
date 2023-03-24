@@ -9,6 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,19 @@ public class PaginationApiImpl implements PaginationApi {
             throw new IllegalArgumentException("Preconditions aren't satisfied");
         }
         PaginatedContent paginatedContent1 = new PaginatedContent(header, content);
+        storeAndDisplay(playerEntity, paginatedContent1, display);
+    }
+
+    @Override
+    public void createTable(ServerPlayerEntity playerEntity, List<Text> content, @Nullable Text header, boolean display) {
+        if(playerCondition.test(playerEntity)) {
+            throw new IllegalArgumentException("Preconditions aren't satisfied");
+        }
+        PaginatedContent paginatedContent1 = new PaginatedContent(header, content);
+        storeAndDisplay(playerEntity, paginatedContent1, display);
+    }
+
+    private void storeAndDisplay(ServerPlayerEntity playerEntity, PaginatedContent paginatedContent1, boolean display) {
         paginatedContent.put(playerEntity, new Pair<>(18000, paginatedContent1));
         if(display) {
             try {
@@ -43,11 +57,6 @@ public class PaginationApiImpl implements PaginationApi {
                 throw new IllegalArgumentException(e);
             }
         }
-    }
-
-    @Override
-    public void createTable(ServerPlayerEntity playerEntity, List<Text> content, Text header, boolean display) {
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override

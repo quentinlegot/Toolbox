@@ -6,6 +6,7 @@ import net.minecraft.text.ClickEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,24 +30,42 @@ public class PaginatedContent {
                 secondSplit.add(elem);
             }
         }
-        int line = 0;
         List<Text> currentPage = new ArrayList<>();
         for(String elem : secondSplit) {
-            line++;
-            if(!elem.isEmpty())
+            if(!elem.isEmpty()) {
                 currentPage.add(Text.literal(elem));
-            if(line == 8 || elem.isEmpty()) {
+            }
+            if(currentPage.size() == 8 || elem.isEmpty()) {
                 pages.add(new Page(currentPage));
-                line = 0;
                 currentPage = new ArrayList<>();
             }
         }
         pages.add(new Page(currentPage));
     }
 
-    private Text buildHeader(String header) {
-        int numberOfEq = (50 - header.length()) / 2;
+    public PaginatedContent(@Nullable Text header, List<Text> content) {
+        this.header = buildHeader(header);
+        this.pages = new ArrayList<>();
+        List<Text> currentPage = new ArrayList<>();
+        for(Text elem : content) {
+            if(elem != null)
+                currentPage.add(elem);
+            if(currentPage.size() == 8 || elem == null) {
+                pages.add(new Page(currentPage));
+                currentPage = new ArrayList<>();
+            }
+        }
+        pages.add(new Page(currentPage));
+    }
+
+    private Text buildHeader(@Nullable String header) {
+        int numberOfEq = (50 - (header != null ? header.length() : 0)) / 2;
         return Text.literal("=".repeat(numberOfEq) + " " + header + " " + "=".repeat(numberOfEq));
+    }
+
+    private Text buildHeader(@Nullable Text header) {
+        int numberOfEq = (50 - (header != null ? header.getString().length() : 0)) / 2;
+        return Text.literal("=".repeat(numberOfEq) + " ").append(header).append(" " + "=".repeat(numberOfEq));
     }
 
     public void display(ServerPlayerEntity playerEntity, int page) throws PageIndexOutOfBoundException {
