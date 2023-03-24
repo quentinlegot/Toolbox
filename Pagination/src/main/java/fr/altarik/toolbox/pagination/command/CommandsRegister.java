@@ -4,10 +4,11 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import fr.altarik.toolbox.pagination.Pagination;
+import fr.altarik.toolbox.pagination.api.PageIndexOutOfBoundException;
 import fr.altarik.toolbox.pagination.api.PaginationApi;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
@@ -20,7 +21,7 @@ public class CommandsRegister {
         this.api = instance.getApi();
     }
 
-    public void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
+    public void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(literal("table")
                 .then(literal("page")
                         .then(argument("page", IntegerArgumentType.integer())
@@ -60,8 +61,8 @@ public class CommandsRegister {
         try {
             int page = IntegerArgumentType.getInteger(context, "page");
             api.display(context.getSource().getPlayerOrThrow(), page);
-        } catch(NullPointerException | IllegalArgumentException e) {
-            context.getSource().sendFeedback(Text.literal("Error: " + e.getMessage()), false);
+        } catch(PageIndexOutOfBoundException e) {
+            throw new CommandSyntaxException(new SimpleCommandExceptionType(e.getText()), e.getText());
         }
         return 0;
     }

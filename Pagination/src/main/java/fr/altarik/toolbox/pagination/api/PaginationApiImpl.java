@@ -35,12 +35,17 @@ public class PaginationApiImpl implements PaginationApi {
         }
         PaginatedContent paginatedContent1 = new PaginatedContent(header, content);
         paginatedContent.put(playerEntity, new Pair<>(18000, paginatedContent1));
-        if(display)
-            paginatedContent1.display(playerEntity, 0);
+        if(display) {
+            try {
+                paginatedContent1.display(playerEntity, 0);
+            } catch (PageIndexOutOfBoundException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }
     }
 
     @Override
-    public void display(ServerPlayerEntity player, int page) {
+    public void display(ServerPlayerEntity player, int page) throws PageIndexOutOfBoundException {
         if(player == null)
             throw new NullPointerException("Player is null");
         Pair<Integer, PaginatedContent> pair = paginatedContent.get(player);

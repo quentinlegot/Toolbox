@@ -32,6 +32,6 @@ public interface PaginationApi {
      * @throws NullPointerException if player is null or paginated content for the player doesn't exist (or have expired)
      * @see fr.altarik.toolbox.pagination.PaginatedContent#display(ServerPlayerEntity, int)
      */
-    void display(ServerPlayerEntity player, int page);
+    void display(ServerPlayerEntity player, int page) throws PageIndexOutOfBoundException;
 
 }

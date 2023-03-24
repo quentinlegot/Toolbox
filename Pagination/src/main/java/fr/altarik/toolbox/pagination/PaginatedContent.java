@@ -1,5 +1,6 @@
 package fr.altarik.toolbox.pagination;
 
+import fr.altarik.toolbox.pagination.api.PageIndexOutOfBoundException;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.MutableText;
@@ -45,14 +46,14 @@ public class PaginatedContent {
 
     private Text buildHeader(String header) {
         int numberOfEq = (50 - header.length()) / 2;
-        return Text.literal("=".repeat(numberOfEq) + header + "=".repeat(numberOfEq));
+        return Text.literal("=".repeat(numberOfEq) + " " + header + " " + "=".repeat(numberOfEq));
     }
 
-    public void display(ServerPlayerEntity playerEntity, int page) {
+    public void display(ServerPlayerEntity playerEntity, int page) throws PageIndexOutOfBoundException {
        if(page >= this.pages.size()) {
-           throw new IllegalArgumentException("There's " + this.pages.size() + " paginated pages but you wanted page n°" + (page + 1));
+           throw new PageIndexOutOfBoundException("api.pagination.page_higher_than_expected", this.pages.size(), (page + 1));
        } else if(page < 0) {
-           throw new IllegalArgumentException("argument page is lower than 0");
+           throw new PageIndexOutOfBoundException("api.pagination.page_lower_than_0");
        } else {
            playerEntity.sendMessage(header);
            for(Text s : pages.get(page).lines) {
@@ -66,13 +67,13 @@ public class PaginatedContent {
     private Text buildFooter(int page) {
         String strPage = String.valueOf(page + 1);
         int numberOfEq = (46 - strPage.length()) / 2;
-        MutableText left = Text.literal("<").styled(
+        MutableText left = Text.literal(" <").styled(
                 style -> style
                         .withColor(Formatting.YELLOW)
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/table page " + (page - 1)))
         );
         MutableText middle = Text.literal(" " + strPage + " ").styled(style -> style.withColor(Formatting.RESET));
-        MutableText right = Text.literal(">").styled(
+        MutableText right = Text.literal("> ").styled(
                 style -> style
                         .withColor(Formatting.YELLOW)
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/table page " + (page + 1)))
