@@ -2,6 +2,7 @@ package fr.altarik.toolbox.database.keyvalue;
 
 import fr.altarik.toolbox.database.SqlConnection;
 import net.minecraft.util.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
@@ -10,16 +11,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class KeyValueConnection {
+public class KeyValueConnection implements KeyValueTable {
 
     private final SqlConnection connection;
     private final String tableName;
     private final List<KeyValueBuilder.AdditionalColumn> additionColumns;
 
-    public KeyValueConnection(SqlConnection connection, String tableName, List<KeyValueBuilder.AdditionalColumn> additionalColumns) throws SQLException {
+    public KeyValueConnection(@NotNull SqlConnection connection, @NotNull String tableName, @NotNull List<KeyValueBuilder.AdditionalColumn> additionalColumns) throws SQLException {
         this.connection = connection;
         this.tableName = tableName;
         this.additionColumns = additionalColumns;
+        connection.checkConnection();
 
         try(Statement statement = connection.getConnection().createStatement()) {
             StringBuilder sql = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(tableName).append("(id SERIAL,");
@@ -47,7 +49,9 @@ public class KeyValueConnection {
         }
     }
 
+    @Override
     public @Nullable String getValueById(int id) throws SQLException {
+        connection.checkConnection();
         try(PreparedStatement preparedStatement = connection.getConnection().prepareStatement("SELECT value FROM " + tableName + " WHERE id=?")) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -58,8 +62,10 @@ public class KeyValueConnection {
         }
     }
 
-    public @Nullable String getValueByAdditionalColumnAndKey(String key, List<Pair<KeyValueBuilder.AdditionalColumn, Object>> additionalColumns) throws SQLException {
-        StringBuilder sql = new StringBuilder("SELECT value FROM ").append(tableName).append(" WHERE key=? AND ");
+    @Override
+    public @Nullable Result getValueByAdditionalColumnAndKey(String key, List<Pair<KeyValueBuilder.AdditionalColumn, Object>> additionalColumns) throws SQLException {
+        connection.checkConnection();
+        StringBuilder sql = new StringBuilder("SELECT id, value FROM ").append(tableName).append(" WHERE key=? AND ");
         for(int i = 0; i < additionalColumns.size(); ++i) {
             sql.append(additionalColumns.get(i).getLeft().columnName()).append("=?");
             if(i != additionalColumns.size() - 1) {
@@ -74,12 +80,14 @@ public class KeyValueConnection {
             }
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next())
-                return resultSet.getString(1);
+                return new Result(resultSet.getString(1), resultSet.getString(2));
             return null;
         }
     }
 
+    @Override
     public long insertValue(String key, String value, List<Pair<KeyValueBuilder.AdditionalColumn, Object>> additionalColumns) throws SQLException {
+        connection.checkConnection();
         StringBuilder sql = new StringBuilder("INSERT INTO " + tableName + "(key, value");
         for(int i = 0; i < additionalColumns.size(); ++i) {
             if(i != additionalColumns.size() - 1) {
@@ -112,7 +120,9 @@ public class KeyValueConnection {
         }
     }
 
+    @Override
     public void updateValueById(String key, String value) throws SQLException {
+        connection.checkConnection();
         try(PreparedStatement preparedStatement = connection.getConnection().prepareStatement("UPDATE " + tableName + " SET value=? WHERE key=?")) {
             preparedStatement.setString(1, value);
             preparedStatement.setString(2, key);
@@ -121,7 +131,9 @@ public class KeyValueConnection {
 
     }
 
+    @Override
     public void updateValue(String key, String value, List<Pair<KeyValueBuilder.AdditionalColumn, Object>> additionalColumns) throws SQLException {
+        connection.checkConnection();
         StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET value=? WHERE key=?");
         for(int i = 0; i < additionalColumns.size(); ++i) {
             if(i != additionalColumns.size() - 1) {
@@ -140,6 +152,7 @@ public class KeyValueConnection {
         }
     }
 
+    @Override
     public List<KeyValueBuilder.AdditionalColumn> getAdditionColumns() {
         return additionColumns;
     }
