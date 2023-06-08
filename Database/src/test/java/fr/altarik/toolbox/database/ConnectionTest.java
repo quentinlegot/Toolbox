@@ -30,6 +30,7 @@ class ConnectionTest {
             try(PreparedStatement statement = connection.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS toolbox(id SERIAL, PRIMARY KEY (id));")) {
                 statement.executeUpdate();
             }
+            connection.close();
         });
     }
 

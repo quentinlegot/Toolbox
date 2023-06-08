@@ -10,4 +10,4 @@ pluginManagement {
 }
 
 rootProject.name = 'Toolbox'
-include(':Tasks', ':Database', ':Pagination')
+include(':Tasks', ':Database', ':Pagination', ':Core')

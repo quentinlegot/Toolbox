@@ -1,5 +1,8 @@
 package fr.altarik.toolbox.database.keyvalue;
 
+import fr.altarik.toolbox.core.builder.IBuilder;
+import fr.altarik.toolbox.core.builder.RequiredCollectionParameterBuilder;
+import fr.altarik.toolbox.core.builder.RequiredParamBuilder;
 import fr.altarik.toolbox.database.SqlConnection;
 import net.minecraft.util.Pair;
 import org.jetbrains.annotations.NotNull;
@@ -11,20 +14,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class KeyValueBuilder {
+public class KeyValueBuilder implements IBuilder<KeyValueConnection> {
 
-    private final String tableName;
-    private final List<AdditionalColumn> additionalColumns;
-    private final SqlConnection connection;
+    private final RequiredParamBuilder<String> tableName;
+    private final RequiredCollectionParameterBuilder<AdditionalColumn, List<AdditionalColumn>> additionalColumns;
+    private final RequiredParamBuilder<SqlConnection> connection;
 
-    private KeyValueBuilder(SqlConnection connection, String tableName) {
-        this.connection = connection;
-        this.tableName = tableName;
-        this.additionalColumns = new ArrayList<>();
+    private KeyValueBuilder() {
+        this.tableName = new RequiredParamBuilder<>();
+        this.connection = new RequiredParamBuilder<>();
+        this.additionalColumns = new RequiredCollectionParameterBuilder<>(new ArrayList<>(), true);
     }
 
-    public static KeyValueBuilder builder(@NotNull SqlConnection connection, @NotNull String tableName) {
-        return new KeyValueBuilder(connection, tableName);
+    public static KeyValueBuilder builder() {
+        return new KeyValueBuilder();
+    }
+
+    public KeyValueBuilder setConnection(@NotNull SqlConnection connection) {
+        this.connection.set(connection);
+        return this;
+    }
+
+    public KeyValueBuilder setTableName(@NotNull String tableName) {
+        this.tableName.set(tableName);
+        return this;
     }
 
     public KeyValueBuilder addColumn(AdditionalColumn additionalColumn) {
@@ -33,7 +46,7 @@ public class KeyValueBuilder {
     }
 
     public KeyValueConnection build() throws SQLException {
-        return new KeyValueConnection(connection, tableName, additionalColumns);
+        return new KeyValueConnection(connection.get(), tableName.get(), additionalColumns.get());
     }
 
     public record AdditionalColumn(@NotNull String columnName, @NotNull JDBCType type, boolean notNull, @Nullable AdditionalColumnReference reference) {
