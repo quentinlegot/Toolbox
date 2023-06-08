@@ -1,4 +1,4 @@
-package fr.altarik.toolbox.database.keyvalue;
+package fr.altarik.toolbox.database.keyValue;
 
 import fr.altarik.toolbox.database.SqlConnection;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package fr.altarik.toolbox.database.keyvalue;
+package fr.altarik.toolbox.database.keyValue;
 
 import org.jetbrains.annotations.Nullable;
 
