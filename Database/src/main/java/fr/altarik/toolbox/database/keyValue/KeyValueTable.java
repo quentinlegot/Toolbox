@@ -4,6 +4,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
 
+/**
+ * <p>Implement of a key value table, abstract the actual representation of the table and its manipulation between this interface</p>
+ * @see KeyValuePostgresql
+ */
 public interface KeyValueTable {
 
     /**
@@ -32,5 +36,19 @@ public interface KeyValueTable {
      * @throws SQLException if connection is lost
      */
     void updateValue(String key, String value) throws SQLException;
+
+    /**
+     * <p>Delete row with having {@code key} as unique key</p>
+     * <p>If key doesn't exist in database, will delete no row without warning</p>
+     * @param key the key of the row to delete
+     * @throws SQLException if connection is lost
+     */
+    void deleteRow(String key) throws SQLException;
+
+    /**
+     * Will delete every data inside the table
+     * @throws SQLException if connection is lost
+     */
+    void truncateTable() throws SQLException;
 
 }

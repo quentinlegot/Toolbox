@@ -9,16 +9,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class KeyValueConnection implements KeyValueTable {
+public class KeyValuePostgresql implements KeyValueTable {
 
     private final SqlConnection connection;
     private final String tableName;
 
-    public KeyValueConnection(@NotNull SqlConnection connection, @NotNull String tableName) throws SQLException {
+    public KeyValuePostgresql(@NotNull SqlConnection connection, @NotNull String tableName) throws SQLException {
         this.connection = connection;
         this.tableName = tableName;
         connection.checkConnection();
+        createTable(tableName);
+    }
 
+    private void createTable(String tableName) throws SQLException {
         try(Statement statement = connection.getConnection().createStatement()) {
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS " + tableName + "(key VARCHAR(50) NOT NULL, value TEXT NOT NULL, PRIMARY KEY(key));");
         }
@@ -52,6 +55,23 @@ public class KeyValueConnection implements KeyValueTable {
         try(PreparedStatement preparedStatement = connection.getConnection().prepareStatement("UPDATE " + tableName + " SET value=? WHERE key=?;")) {
             preparedStatement.setString(1, value);
             preparedStatement.setString(2, key);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void deleteRow(String key) throws SQLException {
+        connection.checkConnection();
+        try(PreparedStatement preparedStatement = connection.getConnection().prepareStatement("DELETE FROM " + tableName + " WHERE key=?")) {
+            preparedStatement.setString(1, key);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void truncateTable() throws SQLException {
+        connection.checkConnection();
+        try(PreparedStatement preparedStatement = connection.getConnection().prepareStatement("TRUNCATE TABLE " + tableName)) {
             preparedStatement.executeUpdate();
         }
     }

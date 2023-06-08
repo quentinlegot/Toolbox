@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.SQLException;
 
 
-public class KeyValueBuilder implements IBuilder<KeyValueConnection> {
+public class KeyValueBuilder implements IBuilder<KeyValuePostgresql> {
 
     private final RequiredParamBuilder<String> tableName;
     private final RequiredParamBuilder<SqlConnection> connection;
@@ -32,8 +32,8 @@ public class KeyValueBuilder implements IBuilder<KeyValueConnection> {
         return this;
     }
 
-    public KeyValueConnection build() throws SQLException {
-        return new KeyValueConnection(connection.get(), tableName.get());
+    public KeyValuePostgresql build() throws SQLException {
+        return new KeyValuePostgresql(connection.get(), tableName.get());
     }
 
 }

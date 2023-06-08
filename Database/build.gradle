@@ -1,9 +1,9 @@
 dependencies {
-    implementation 'org.postgresql:postgresql:42.5.0'
+    implementation 'org.postgresql:postgresql:42.6.0'
     testImplementation 'com.google.code.gson:gson:2.10'
     implementation project(':Core')
 }
 
 test {
-    exclude 'fr/altarik/toolbox/database/**'
+    exclude 'fr/altarik/toolbox/database/**' // exclude for runner
 }
