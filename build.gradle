@@ -42,8 +42,8 @@ allprojects {
                 name 'altarik'
                 url 'https://repo.altarik.fr/'.concat(project.version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/')
                 credentials {
-                    username = Objects.requireNonNull(System.getProperty("REPO_USERNAME", local.getProperty("repo_username")))
-                    password = Objects.requireNonNull(System.getProperty("REPO_PASSWORD", local.getProperty("repo_password")))
+                    username = System.getProperty("REPO_USERNAME", local.getProperty("repo_username"))
+                    password = System.getProperty("REPO_PASSWORD", local.getProperty("repo_password"))
                 }
             }
         }
