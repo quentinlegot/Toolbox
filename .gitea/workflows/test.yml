@@ -10,6 +10,9 @@ on:
   pull_request_target: 
     branches: [  master, dev ]
 
+env:
+  REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
+  REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
 
 jobs:
   build:
@@ -30,17 +33,11 @@ jobs:
           distribution: 'oracle'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
-        env:
-          REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
-          REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
         run: | 
           chmod +x ./gradlew
           touch local.properties
           echo $REPO_USERNAME
       - name: build
-        env:
-          REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
-          REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
         run: ./gradlew build --no-daemon --max-workers 1
       #- name: test
       #  run: ./gradlew test --no-daemon
