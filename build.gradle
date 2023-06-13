@@ -92,6 +92,7 @@ allprojects {
 
 dependencies {
     include subprojects.collect { project ->  project }
+    implementation subprojects.collect { project ->  project }
 }
 
 /*jar {
