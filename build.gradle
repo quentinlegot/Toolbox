@@ -2,6 +2,9 @@ plugins {
     id 'fabric-loom' version '1.2-SNAPSHOT' apply false
 }
 
+Properties local = new Properties()
+local.load(project.rootProject.file('local.properties').newDataInputStream())
+
 allprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'fabric-loom'
@@ -39,8 +42,8 @@ allprojects {
                 name 'altarik'
                 url 'https://repo.altarik.fr/'.concat(project.version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/')
                 credentials {
-                    username = project.repo_username
-                    password = project.repo_password
+                    username = Objects.requireNonNull(System.getProperty("REPO_USERNAME", local.getProperty("repo_username")))
+                    password = Objects.requireNonNull(System.getProperty("REPO_PASSWORD", local.getProperty("repo_password")))
                 }
             }
         }
