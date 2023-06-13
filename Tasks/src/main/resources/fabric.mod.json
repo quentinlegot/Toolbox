@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "task",
+    "id": "toolbox-task",
     "version": "${version}",
     "name": "Task",
     "description": "A mod to use as a dependency for others to schedule tasks",

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "toolbox-pagination",
+  "id": "toolbox-database",
   "version": "${version}",
-  "name": "Task",
-  "description": "A mod to use to paginate long result to player in chat",
+  "name": "Database",
+  "description": "",
   "authors": [
     "Altarik"
   ],
@@ -14,16 +14,12 @@
     "homepage": "https://altarik.fr"
   },
   "license": "Altarik @ All-Rights-Reserved ",
-  "icon": "assets/pagination/icon.png",
+  "icon": "assets/database/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "fr.altarik.toolbox.pagination.Pagination"
-    ]
+    "main": []
   },
-  "mixins": [
-    "Pagination.mixins.json"
-  ],
+  "mixins": [],
   "depends": {
     "fabricloader": "^0.14.12",
     "fabric-api": "*",

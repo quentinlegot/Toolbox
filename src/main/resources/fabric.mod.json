@@ -14,7 +14,7 @@
       "homepage": "https://altarik.fr"
     },
     "license": "Altarik @ All-Rights-Reserved ",
-    "icon": "assets/quests/icon.png",
+    "icon": "assets/toolbox/icon.png",
     "environment": "*",
     "depends": {
       "fabricloader": "^0.14.12",
