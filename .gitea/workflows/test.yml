@@ -30,14 +30,18 @@ jobs:
           distribution: 'oracle'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
-        run: | 
-          chmod +x ./gradlew
-          touch local.properties
-      - name: build
-        run: ./gradlew build --no-daemon --max-workers 1
         env:
           REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
           REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+        run: | 
+          chmod +x ./gradlew
+          touch local.properties
+          echo $REPO_USERNAME
+      - name: build
+        env:
+          REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
+          REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+        run: ./gradlew build --no-daemon --max-workers 1
       #- name: test
       #  run: ./gradlew test --no-daemon
 
