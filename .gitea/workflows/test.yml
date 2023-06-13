@@ -30,7 +30,9 @@ jobs:
           distribution: 'oracle'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
-        run: chmod +x ./gradlew
+        run: | 
+          chmod +x ./gradlew
+          touch local.properties
       - name: build
         run: ./gradlew build --no-daemon --max-workers 1
       #- name: test

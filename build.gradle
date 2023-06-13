@@ -3,7 +3,7 @@ plugins {
 }
 
 Properties local = new Properties()
-local.load(project.rootProject.file('local.properties').newDataInputStream())
+local.load(new FileInputStream(rootProject.file("local.properties")))
 
 allprojects {
     apply plugin: 'maven-publish'
