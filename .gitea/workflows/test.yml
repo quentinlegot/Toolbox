@@ -36,7 +36,6 @@ jobs:
         run: | 
           chmod +x ./gradlew
           touch local.properties
-          echo $REPO_USERNAME
       - name: build
         run: ./gradlew build --no-daemon --max-workers 1
       #- name: test
@@ -46,6 +45,20 @@ jobs:
     if: gitea.ref == 'refs/heads/master'
     needs: build
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+      - name: validate gradle wrapper
+        uses: https://github.com/gradle/wrapper-validation-action@v1
+      - name: setup jdk ${{ matrix.Java }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'oracle'
+      - name: make gradle wrapper executable
+        if: ${{ runner.os != 'Windows' }}
+        run: | 
+          chmod +x ./gradlew
+          touch local.properties
       - name: deploy
         run: ./gradlew publish
 
