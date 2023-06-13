@@ -14,13 +14,17 @@
       "homepage": "https://altarik.fr"
     },
     "license": "Altarik @ All-Rights-Reserved ",
-    "icon": "assets/quests/icon.png",
+    "icon": "assets/toolbox/icon.png",
     "environment": "*",
     "depends": {
       "fabricloader": "^0.14.12",
       "fabric-api": "*",
       "minecraft": "1.19.3",
-      "java": ">=17"
+      "java": ">=17",
+      "toolbox-core": "${version}",
+      "toolbox-database": "${version}",
+      "toolbox-pagination": "${version}",
+      "toolbox-task": "${version}"
     }
   }
   

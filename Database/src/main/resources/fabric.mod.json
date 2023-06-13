@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "toolbox-database",
+  "version": "${version}",
+  "name": "Database",
+  "description": "",
+  "authors": [
+    "Altarik"
+  ],
+  "contributors": [
+    "Legot Quentin<legotquentin@gmail.com>"
+  ],
+  "contact": {
+    "homepage": "https://altarik.fr"
+  },
+  "license": "Altarik @ All-Rights-Reserved ",
+  "icon": "assets/database/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": []
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": "^0.14.12",
+    "fabric-api": "*",
+    "minecraft": "1.19.3",
+    "java": ">=17"
+  }
+}

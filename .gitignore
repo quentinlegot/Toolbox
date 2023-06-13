@@ -3,9 +3,11 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+local.properties
 
-*/run
-*/logs
+run/*
+**/run
+**/logs
 
 ### IntelliJ IDEA ###
 .idea

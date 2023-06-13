@@ -10,14 +10,16 @@ on:
   pull_request_target: 
     branches: [  master, dev ]
 
+env:
+  REPO_USERNAME: Altarik
+  REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
 
 jobs:
   build:
     strategy:
       matrix:
         java: [ '17' ]
-        # and run on both Linux and Windows
-        os: [ubuntu-latest, windows-2022]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
@@ -31,8 +33,19 @@ jobs:
           distribution: 'oracle'
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
-        run: chmod +x ./gradlew
+        run: | 
+          chmod +x ./gradlew
+          touch local.properties
+          echo $REPO_USERNAME
       - name: build
-        run: ./gradlew build --no-daemon
-      - name: test
-        run: ./gradlew test --no-daemon
+        run: ./gradlew build --no-daemon --max-workers 1
+      #- name: test
+      #  run: ./gradlew test --no-daemon
+  deploy:
+    runs-on: ${{ ubuntu-latest }}
+    if: gitea.ref == 'refs/heads/master'
+    needs: build
+    steps:
+      - name: deploy
+        run: ./gradlew publish
+

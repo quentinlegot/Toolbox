@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "pagination",
+  "id": "toolbox-pagination",
   "version": "${version}",
-  "name": "Task",
+  "name": "Pagination",
   "description": "A mod to use to paginate long result to player in chat",
   "authors": [
     "Altarik"

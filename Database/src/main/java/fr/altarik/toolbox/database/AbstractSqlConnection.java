@@ -25,16 +25,18 @@ public abstract class AbstractSqlConnection implements SqlConnection {
         return connection;
     }
 
+    @Override
     public void closeConnection() {
         try {
-            if(!connection.isClosed()) {
-                connection.close();
-                connection = null;
-            }
-        } catch(SQLException ignored) {
-            // no op
-        }
+            close();
+        } catch (Exception ignored) {}
     }
 
-
+    @Override
+    public void close() throws Exception {
+        if(!connection.isClosed()) {
+            connection.close();
+            connection = null;
+        }
+    }
 }

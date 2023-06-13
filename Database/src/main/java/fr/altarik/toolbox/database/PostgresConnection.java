@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class PostgresConnection extends AbstractSqlConnection {
 
-    PostgresConnection(ConnectionConfig config) throws SQLException {
+    public PostgresConnection(ConnectionConfig config) throws SQLException {
         super(config);
     }
 

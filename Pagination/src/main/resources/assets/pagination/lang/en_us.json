@@ -1,0 +1,4 @@
+{
+  "api.pagination.page_lower_than_0": "argument page is lower than 0",
+  "api.pagination.page_higher_than_expected": "There's %d paginated pages but you wanted page n°%d"
+}

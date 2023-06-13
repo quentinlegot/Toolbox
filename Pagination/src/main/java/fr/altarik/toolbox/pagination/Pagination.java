@@ -19,13 +19,14 @@ public class Pagination implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> new CommandsRegister().register(dispatcher, environment.dedicated));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> new CommandsRegister(this).register(dispatcher));
     }
 
     public @NotNull PaginationApi getApi() {
         return api;
     }
 
+    @SuppressWarnings("unused")
     public static @NotNull Pagination getInstance() {
         return instance;
     }
