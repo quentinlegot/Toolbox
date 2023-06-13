@@ -33,7 +33,9 @@ jobs:
         run: | 
           chmod +x ./gradlew
           touch local.properties
-          echo ${{ secrets.REPO_USERNAME }}
+          echo $REPO_USERNAME
+        env:
+          REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
       - name: build
         run: ./gradlew build --no-daemon --max-workers 1
       #- name: test
