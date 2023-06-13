@@ -41,7 +41,11 @@ jobs:
       #- name: test
       #  run: ./gradlew test --no-daemon
   deploy:
-    runs-on: ${{ ubuntu-latest }}
+    strategy:
+      matrix:
+        java: [ '17' ]
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
     if: gitea.ref == 'refs/heads/master'
     needs: build
     steps:
