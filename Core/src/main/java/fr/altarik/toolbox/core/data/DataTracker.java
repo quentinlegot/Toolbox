@@ -1,8 +1,6 @@
 package fr.altarik.toolbox.core.data;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class DataTracker {
 
@@ -30,8 +28,7 @@ public class DataTracker {
 
     }
 
-    public void saveToDb() {
-
+    public Iterator<TrackedData> getTrackedDataIterator() {
+        return trackedData.keySet().iterator();
     }
-
 }
