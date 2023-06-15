@@ -31,4 +31,8 @@ public class DataTracker {
     public Iterator<TrackedData> getTrackedDataIterator() {
         return trackedData.keySet().iterator();
     }
+
+    public Iterator<String> getTrackedDataValueIterator() {
+        return trackedData.values().iterator();
+    }
 }
