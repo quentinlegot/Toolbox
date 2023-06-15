@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "toolbox-core",
   "version": "${version}",
-  "name": "Core",
-  "description": "",
+  "name": "Altarik Toolbox Core",
+  "description": "Dependency of some of altarik toolbox mods",
   "authors": [
     "Altarik"
   ],

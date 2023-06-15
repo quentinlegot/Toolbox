@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "toolbox-pagination",
   "version": "${version}",
-  "name": "Pagination",
+  "name": "Altarik Toolbox Pagination",
   "description": "A mod to use to paginate long result to player in chat",
   "authors": [
     "Altarik"
