@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "id": "toolbox-task",
     "version": "${version}",
-    "name": "Task",
+    "name": "Altarik Toolbox Task",
     "description": "A mod to use as a dependency for others to schedule tasks",
     "authors": [
       "Altarik"

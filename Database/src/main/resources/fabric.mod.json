@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "toolbox-database",
   "version": "${version}",
-  "name": "Database",
-  "description": "",
+  "name": "Altarik Toolbox Database",
+  "description": "A set of sql tools",
   "authors": [
     "Altarik"
   ],
@@ -24,6 +24,7 @@
     "fabricloader": "^0.14.12",
     "fabric-api": "*",
     "minecraft": "1.19.3",
-    "java": ">=17"
+    "java": ">=17",
+    "toolbox-core":  "${version}"
   }
 }
