@@ -102,11 +102,11 @@ dependencies {
 }
 
 static def getEnv(String envName, String defaultValue) {
-    String r = System.getenv(envName);
+    String r = System.getenv(envName)
     if(r != null) {
-        return r;
+        return r
     } else {
-        return defaultValue;
+        return defaultValue
     }
 }
 
