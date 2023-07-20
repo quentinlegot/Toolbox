@@ -17,8 +17,8 @@
     "icon": "assets/tasks/icon.png",
     "environment": "*",
     "entrypoints": {
-      "main": [
-        "fr.altarik.toolbox.task.Task"
+      "server": [
+        "fr.altarik.toolbox.task.server.DedicatedServerTask"
       ]
     },
     "mixins": [
