@@ -3,7 +3,10 @@ plugins {
 }
 
 Properties local = new Properties()
-local.load(new FileInputStream(rootProject.file("local.properties")))
+try {
+    local.load(new FileInputStream(rootProject.file("local.properties")))
+} catch (IOException ignored) {}
+
 
 allprojects {
     apply plugin: 'maven-publish'
@@ -42,8 +45,8 @@ allprojects {
                 name 'altarik'
                 url 'https://repo.altarik.fr/'.concat(project.version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/')
                 credentials {
-                    username = System.getProperty("REPO_USERNAME", local.getProperty("repo_username"))
-                    password = System.getProperty("REPO_PASSWORD", local.getProperty("repo_password"))
+                    username = getEnv("REPO_USERNAME", local.getProperty("repo_username"))
+                    password = getEnv("REPO_PASSWORD", local.getProperty("repo_password"))
                 }
             }
         }
@@ -96,6 +99,15 @@ allprojects {
 dependencies {
     include subprojects.collect { project ->  project }
     implementation subprojects.collect { project ->  project }
+}
+
+static def getEnv(String envName, String defaultValue) {
+    String r = System.getenv(envName);
+    if(r != null) {
+        return r;
+    } else {
+        return defaultValue;
+    }
 }
 
 /*jar {
