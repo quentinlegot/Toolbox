@@ -5,6 +5,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.internal.impldep.org.apache.http.client.HttpResponseException;
 
 import java.io.IOException;
 
@@ -41,6 +42,9 @@ public abstract class ReportDiscord extends DefaultTask {
                 .build();
         try(Response response = client.newCall(request).execute()) {
             getLogger().info("report sent");
+            if(!(response.code() == 200)) {
+                throw new HttpResponseException(response.code(), response.message());
+            }
         }
     }
 
