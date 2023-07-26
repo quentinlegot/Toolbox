@@ -26,7 +26,8 @@ public abstract class ReportDiscord extends DefaultTask {
                 {
                     "embeds": [
                         {
-                            "title": "A new update for Toolbox is available",
+                            "title": "A new update of\s""" + data.projectName() + """
+                             is available",
                             "description":\s""" + "\"" + message + "\"" + """
                             ,
                             "url":\s""" + "\"" + data.url() + "\"" + """
@@ -48,7 +49,7 @@ public abstract class ReportDiscord extends DefaultTask {
         }
     }
 
-    public record ReportData(String baseUrl, String webhookId, String webhookToken, String message, String url) {
+    public record ReportData(String baseUrl, String webhookId, String webhookToken, String projectName, String message, String url) {
 
     }
 
