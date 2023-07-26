@@ -13,6 +13,8 @@ on:
 env:
   REPO_USERNAME: Altarik
   REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+  DISCORD_PUB_ID: ${{ secrets.DISCORD_PUB_ID }}
+  DISCORD_PUB_TOKEN: ${{ secrets.DISCORD_PUB_TOKEN }}
 
 jobs:
   build:
