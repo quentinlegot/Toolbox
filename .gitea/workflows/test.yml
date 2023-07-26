@@ -64,5 +64,7 @@ jobs:
           chmod +x ./gradlew
           touch local.properties
       - name: deploy
-        run: ./gradlew publish
+        run: |
+          ./gradlew publish
+          ./gradlew reportToDiscord
 

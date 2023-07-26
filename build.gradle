@@ -1,3 +1,5 @@
+import fr.altarik.ReportDiscord
+
 plugins {
     id 'fabric-loom' version '1.2-SNAPSHOT' apply false
 }
@@ -7,6 +9,14 @@ try {
     local.load(new FileInputStream(rootProject.file("local.properties")))
 } catch (IOException ignored) {}
 
+group = project.maven_group
+version = project.maven_version
+
+String webhookId = getEnv("DISCORD_PUB_ID", local.getProperty("discord_pub_id"))
+String webhookToken = getEnv("DISCORD_PUB_TOKEN", local.getProperty("discord_pub_token"))
+String repoUrl = "https://repo.altarik.fr/#/" + (project.version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/') + project.group.replace(".", "/") + "/" + project.rootProject.name + "/" + project.version
+
+var reportConfig = new ReportDiscord.ReportData("https://discord.com/api/", webhookId, webhookToken, "Update " + project.version + " has been published", repoUrl);
 
 allprojects {
     apply plugin: 'maven-publish'
@@ -108,6 +118,10 @@ static def getEnv(String envName, String defaultValue) {
     } else {
         return defaultValue
     }
+}
+
+tasks.register("reportToDiscord", ReportDiscord) {
+    config.set(reportConfig)
 }
 
 /*jar {
