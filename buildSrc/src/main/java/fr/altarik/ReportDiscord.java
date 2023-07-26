@@ -42,7 +42,7 @@ public abstract class ReportDiscord extends DefaultTask {
                 .build();
         try(Response response = client.newCall(request).execute()) {
             getLogger().info("report sent");
-            if(!(response.code() == 200)) {
+            if(!response.isSuccessful()) {
                 throw new GradleException("Discord returned a " + response.code() + " code: " + response.message());
             }
         }
