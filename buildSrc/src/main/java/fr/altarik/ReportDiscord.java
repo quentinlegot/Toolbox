@@ -2,6 +2,7 @@ package fr.altarik;
 
 import okhttp3.*;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
@@ -41,6 +42,9 @@ public abstract class ReportDiscord extends DefaultTask {
                 .build();
         try(Response response = client.newCall(request).execute()) {
             getLogger().info("report sent");
+            if(!response.isSuccessful()) {
+                throw new GradleException("Discord returned a " + response.code() + " code: " + response.message());
+            }
         }
     }
 
