@@ -2,10 +2,10 @@ package fr.altarik;
 
 import okhttp3.*;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.internal.impldep.org.apache.http.client.HttpResponseException;
 
 import java.io.IOException;
 
@@ -43,7 +43,7 @@ public abstract class ReportDiscord extends DefaultTask {
         try(Response response = client.newCall(request).execute()) {
             getLogger().info("report sent");
             if(!(response.code() == 200)) {
-                throw new HttpResponseException(response.code(), response.message());
+                throw new GradleException("Discord returned a " + response.code() + " code: " + response.message());
             }
         }
     }
