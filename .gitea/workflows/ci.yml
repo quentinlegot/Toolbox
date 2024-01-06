@@ -46,7 +46,7 @@ jobs:
         java: [ '17' ]
         os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
-    if: gitea.ref == 'refs/heads/master' && gitea.event_name == 'push'
+    if: ${{ gitea.ref == 'refs/heads/master' && gitea.event_name == 'push' }}
     needs: build
     steps:
       - name: checkout repository
