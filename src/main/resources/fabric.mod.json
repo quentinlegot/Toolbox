@@ -17,9 +17,9 @@
     "icon": "assets/toolbox/icon.png",
     "environment": "*",
     "depends": {
-      "fabricloader": "^0.14.12",
+      "fabricloader": "^${loaderVersion}",
       "fabric-api": "*",
-      "minecraft": "1.19.3",
+      "minecraft": "${minecraftVersion}",
       "java": ">=17",
       "toolbox-core": "${version}",
       "toolbox-database": "${version}",
