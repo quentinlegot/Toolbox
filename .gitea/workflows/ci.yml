@@ -67,6 +67,8 @@ jobs:
         run: ./gradlew publish
       - name: create tag
         run: ./gradlew createTag
+        env:
+          GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
       - name: Report to Discord
         run: ./gradlew reportToDiscord
 
