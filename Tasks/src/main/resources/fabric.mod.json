@@ -25,9 +25,9 @@
       "Task.mixins.json"
     ],
     "depends": {
-      "fabricloader": "^0.14.12",
+      "fabricloader": "^${loaderVersion}",
       "fabric-api": "*",
-      "minecraft": "1.19.3",
+      "minecraft": "${minecraftVersion}",
       "java": ">=17"
     }
   }
