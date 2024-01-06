@@ -16,7 +16,7 @@ String webhookId = getEnv("DISCORD_PUB_ID", local.getProperty("discord_pub_id"))
 String webhookToken = getEnv("DISCORD_PUB_TOKEN", local.getProperty("discord_pub_token"))
 String repoUrl = "https://repo.altarik.fr/#/" + (project.version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/') + project.group.replace(".", "/") + "/" + project.rootProject.name + "/" + project.version
 
-var reportConfig = new ReportDiscord.ReportData("https://discord.com/api/", webhookId, webhookToken, project.rootProject.name, "Update " + project.version + " has been published", repoUrl);
+var reportConfig = new ReportDiscord.ReportData("https://discord.com/api/", webhookId, webhookToken, project.rootProject.name, "Update " + project.version + " has been published", repoUrl)
 
 allprojects {
     apply plugin: 'maven-publish'
