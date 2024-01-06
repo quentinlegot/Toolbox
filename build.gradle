@@ -1,3 +1,4 @@
+import fr.altarik.CreateTag
 import fr.altarik.ReportDiscord
 
 plugins {
@@ -17,6 +18,11 @@ String webhookToken = getEnv("DISCORD_PUB_TOKEN", local.getProperty("discord_pub
 String repoUrl = "https://repo.altarik.fr/#/" + (project.version.endsWith('SNAPSHOT') ? 'snapshots/' : 'releases/') + project.group.replace(".", "/") + "/" + project.rootProject.name + "/" + project.version
 
 var reportConfig = new ReportDiscord.ReportData("https://discord.com/api/", webhookId, webhookToken, project.rootProject.name, "Update " + project.version + " has been published", repoUrl)
+
+String giteaToken = getEnv("GITEA_TOKEN", local.getProperty("gitea_token"))
+
+var releaseConfig = new CreateTag.CreateReleaseData("https://git.altarik.fr", project.git_owner, project.git_repo, "v" + project.version as String, giteaToken)
+
 
 allprojects {
     apply plugin: 'maven-publish'
@@ -117,6 +123,11 @@ static def getEnv(String envName, String defaultValue) {
 tasks.register("reportToDiscord", ReportDiscord) {
     config.set(reportConfig)
 }
+
+tasks.register("createTag", CreateTag) {
+    config.set(releaseConfig)
+}
+
 
 /*jar {
     dependsOn subprojects.jar 

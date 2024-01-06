@@ -3,7 +3,7 @@
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
 
-name: 
+name: Test and Deploy
 on:   
   push:
     branches: [ master, dev ]
@@ -13,6 +13,8 @@ on:
 env:
   REPO_USERNAME: Altarik
   REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+  DISCORD_PUB_ID: ${{ secrets.DISCORD_PUB_ID }}
+  DISCORD_PUB_TOKEN: ${{ secrets.DISCORD_PUB_TOKEN }}
 
 jobs:
   build:
@@ -37,9 +39,7 @@ jobs:
           chmod +x ./gradlew
           touch local.properties
       - name: build
-        run: ./gradlew build --no-daemon --max-workers 1
-      #- name: test
-      #  run: ./gradlew test --no-daemon
+        run: ./gradlew build # compile classes, testClasses, assemble in jar and javadocJar, and then test
   deploy:
     strategy:
       matrix:
@@ -64,7 +64,9 @@ jobs:
           chmod +x ./gradlew
           touch local.properties
       - name: deploy
-        run: |
-          ./gradlew publish
-          ./gradlew reportToDiscord
+        run: ./gradlew publish
+      - name: create tag
+        run: ./gradlew createTag
+      - name: Report to Discord
+        run: ./gradlew reportToDiscord
 
