@@ -7,7 +7,7 @@ name: Test and Deploy
 on:   
   push:
     branches: [ master, dev ]
-  pull_request_target: 
+  pull_request: 
     branches: [  master, dev ]
 
 env:
@@ -46,7 +46,7 @@ jobs:
         java: [ '17' ]
         os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
-    if: gitea.ref == 'refs/heads/master'
+    if: ${{ gitea.ref == 'refs/heads/master' && gitea.event_name == 'push' }}
     needs: build
     steps:
       - name: checkout repository
@@ -67,6 +67,8 @@ jobs:
         run: ./gradlew publish
       - name: create tag
         run: ./gradlew createTag
+        env:
+          GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
       - name: Report to Discord
         run: ./gradlew reportToDiscord
 
