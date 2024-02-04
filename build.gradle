@@ -2,7 +2,7 @@ import fr.altarik.CreateTag
 import fr.altarik.ReportDiscord
 
 plugins {
-    id 'fabric-loom' version '1.4-SNAPSHOT' apply false
+    id 'fabric-loom' version '1.5-SNAPSHOT' apply false
 }
 
 Properties local = new Properties()
