@@ -8,7 +8,7 @@
     "Altarik"
   ],
   "contributors": [
-    "Legot Quentin<legotquentin@gmail.com>"
+
   ],
   "contact": {
     "homepage": "https://altarik.fr"
@@ -29,5 +29,13 @@
     "fabric-api": "*",
     "minecraft": "${minecraftVersion}",
     "java": ">=17"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ],
+      "parent": {
+          "parent": "toolbox"
+      }
+    }
   }
 }

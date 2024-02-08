@@ -8,7 +8,7 @@
       "Altarik"
     ],
     "contributors": [
-      "Legot Quentin<legotquentin@gmail.com>"
+
     ],
     "contact": {
       "homepage": "https://altarik.fr"
@@ -25,6 +25,11 @@
       "toolbox-database": "${version}",
       "toolbox-pagination": "${version}",
       "toolbox-task": "${version}"
+    },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ]
     }
   }
+}
   
