@@ -32,7 +32,7 @@ public class BuilderImpl implements IBuilder<BuilderResult> {
 
 
     @Override
-    public BuilderResult build() throws Exception {
+    public BuilderResult build() {
         return new BuilderResult(collection.get(), numberOfSentences.get());
     }
 }

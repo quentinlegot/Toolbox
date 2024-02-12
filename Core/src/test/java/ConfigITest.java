@@ -14,7 +14,7 @@ public class ConfigITest {
         public double para3 = 3.14;
 
         public static ConfigClazz load() throws IOException {
-            return (ConfigClazz) load(Path.of("."), "test.json", ConfigClazz.class);
+            return load(Path.of("."), "test.json", ConfigClazz.class);
         }
 
     }
