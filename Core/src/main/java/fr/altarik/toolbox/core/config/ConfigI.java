@@ -58,6 +58,7 @@ public class ConfigI {
         Files.writeString(this.configPath, GSON.toJson(this));
 //        Files.copy(tempPath, this.configPath, StandardCopyOption.REPLACE_EXISTING);
 //        Files.delete(tempPath);
+        // commented because throws an error on windows each time if the file already exist
     }
 
 }

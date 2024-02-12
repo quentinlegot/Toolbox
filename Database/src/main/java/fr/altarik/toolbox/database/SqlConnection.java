@@ -23,10 +23,4 @@ public interface SqlConnection extends AutoCloseable {
      */
     void checkConnection() throws SQLException;
 
-    /**
-     * @deprecated replaced with {@link AutoCloseable#close()}
-     */
-    @Deprecated(forRemoval = true)
-    void closeConnection();
-
 }
