@@ -24,10 +24,10 @@ public class ConfigI {
         return configPath.resolve(name);
     }
 
-    public static ConfigI load(Path configPath, String name, Class<? extends ConfigI> clazz) throws IOException, JsonSyntaxException, JsonIOException {
+    public static <T extends ConfigI> T load(Path configPath, String name, Class<T> clazz) throws IOException, JsonSyntaxException, JsonIOException {
         Path path = getConfigPath(configPath, name);
 
-        ConfigI file;
+        T file;
 
         if(Files.exists(path)) {
             FileReader reader = new FileReader(path.toFile());
